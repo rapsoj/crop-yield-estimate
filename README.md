@@ -17,7 +17,10 @@ The data was collected through a survey conducted across multiple districts in I
 - [Fair Forward AI](https://www.bmz-digital.global/en/overview-of-initiatives/fair-forward/) (promotes a more open, inclusive, and sustainable approach to AI on an international level. FAIR Forward seeks to improve the foundations for AI innovation and policy in seven partner countries: Rwanda, Uganda, Ghana, South Africa, Kenya, Indonesia, and India. Together with their partners, they focus on three areas of action: (1) strengthen local technical know-how on AI, (2) increase access to open AI training data, (3) develop policy frameworks ready for AI)
 - [The Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ)](https://www.giz.de/de/html/index.html), on behalf of the German Federal Ministry for Economic Cooperation and Development (BMZ), supports this challenge and the Digital Green grant in India
 
-![digital green](digital-green.jpeg | width=20)
+<img src="digital-green.jpeg" width="48">
+
+
+![digital green](digital-green.jpeg)
 ![fair forward](fair-forward.jpeg)
 ![giz](giz.jpeg)
 
