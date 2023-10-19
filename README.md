@@ -13,15 +13,17 @@ A crop yield model could revolutionise Indian agriculture, and serve as a global
 The data was collected through a survey conducted across multiple districts in India. It consists of a variety of factors that could potentially impact the yield of rice crops. These factors include things like the type and amount of fertilizers used, the quantity of seedlings planted, methods of preparing the land, different irrigation techniques employed, among other features. The dataset comprises more than 5000 data points, each having more than 40 features.
 
 ### Organisations
-- [Digital Green](https://www.digitalgreen.org/) (a global development organization that empowers smallholder farmers to lift themselves out of poverty by harnessing the collective power of technology and grassroots-level partnerships)
-- [Fair Forward AI](https://www.bmz-digital.global/en/overview-of-initiatives/fair-forward/) (promotes a more open, inclusive, and sustainable approach to AI on an international level. FAIR Forward seeks to improve the foundations for AI innovation and policy in seven partner countries: Rwanda, Uganda, Ghana, South Africa, Kenya, Indonesia, and India. Together with their partners, they focus on three areas of action: (1) strengthen local technical know-how on AI, (2) increase access to open AI training data, (3) develop policy frameworks ready for AI)
-- [The Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ)](https://www.giz.de/de/html/index.html), on behalf of the German Federal Ministry for Economic Cooperation and Development (BMZ), supports this challenge and the Digital Green grant in India
-
 <img src="digital-green.jpeg" width="400">
+
+- [Digital Green](https://www.digitalgreen.org/) (a global development organization that empowers smallholder farmers to lift themselves out of poverty by harnessing the collective power of technology and grassroots-level partnerships)
 
 <img src="fair-forward.jpeg" width="400">
 
+- [The Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ)](https://www.giz.de/de/html/index.html), on behalf of the German Federal Ministry for Economic Cooperation and Development (BMZ), supports this challenge and the Digital Green grant in India
+
 <img src="giz.jpeg" width="400">
+
+- [Fair Forward AI](https://www.bmz-digital.global/en/overview-of-initiatives/fair-forward/) (promotes a more open, inclusive, and sustainable approach to AI on an international level. FAIR Forward seeks to improve the foundations for AI innovation and policy in seven partner countries: Rwanda, Uganda, Ghana, South Africa, Kenya, Indonesia, and India. Together with their partners, they focus on three areas of action: (1) strengthen local technical know-how on AI, (2) increase access to open AI training data, (3) develop policy frameworks ready for AI)
 
 ### Efficacy analysis of precision agriculture for development
 - [Analysis](https://files.givewell.org/files/DWDA%202009/PAD/PAD_Slide_presentation_2020.pdf)
