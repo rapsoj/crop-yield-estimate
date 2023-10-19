@@ -1,6 +1,6 @@
 # Digital Green Crop Yield Estimate Challenge
 
-![Uploading Screenshot 2023-10-19 at 12.49.21.png…]()
+![tile card](https://imgur.com/a/elG3otW)
 
 [Challenge Link](https://zindi.africa/competitions/digital-green-crop-yield-estimate-challenge)
 
