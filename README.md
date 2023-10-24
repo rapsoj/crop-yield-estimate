@@ -3,6 +3,7 @@
 ![title card](assets/title-card.png)
 
 [Challenge Link](https://zindi.africa/competitions/digital-green-crop-yield-estimate-challenge)
+[Variable Description Link](https://docs.google.com/spreadsheets/d/1ASWzNjuvdYaqWgYlU4L_7gABIkig0wKU8GyFhQ19rx4/edit#gid=174692797)
 
 Smallholder farmers are crucial contributors to global food production, and in India often suffer most from poverty and malnutrition. These farmers face challenges such as limited access to modern agriculture, unpredictable weather, and resource constraints. To tackle this issue, Digital Green collected data via surveys, offering insights into farming practices, environmental conditions, and crop yields.
 
