@@ -17,7 +17,7 @@ The data was collected through a survey conducted across multiple districts in I
 
 - [Digital Green](https://www.digitalgreen.org/) (a global development organization that empowers smallholder farmers to lift themselves out of poverty by harnessing the collective power of technology and grassroots-level partnerships)
 
-<img src="fair-forward.jpeg" width="400">
+<img src="assets/fair-forward.jpeg" width="400">
 
 - [Fair Forward AI](https://www.bmz-digital.global/en/overview-of-initiatives/fair-forward/) (promotes a more open, inclusive, and sustainable approach to AI on an international level. FAIR Forward seeks to improve the foundations for AI innovation and policy in seven partner countries: Rwanda, Uganda, Ghana, South Africa, Kenya, Indonesia, and India. Together with their partners, they focus on three areas of action: (1) strengthen local technical know-how on AI, (2) increase access to open AI training data, (3) develop policy frameworks ready for AI)
 
