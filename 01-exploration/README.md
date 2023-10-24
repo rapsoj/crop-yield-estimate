@@ -2,7 +2,7 @@
 
 Exploring different hypotheses and issues with the data for the Digital Green Crop Yield Estimate Challenge. Please track the different model configurations and the corresponding RMSE here. Please track open questions and data cleaning ideas here.
 
-**Open Questions*
+**Open Questions**
 
 **Predictors**
 - What are lag times between date of nursery establishment, sowing/transplanting, and threshing/harvesting?
