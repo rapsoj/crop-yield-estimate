@@ -10,3 +10,8 @@ This folder contains the following notebooks, to be executed in order within the
 - **01.04-scaling**: Encoding, scaling, and normalising
 - **01.05-feature-selection**: Removing redundant or uninformative features
 - **01.06-dim-reduction**: Dimensionality reduction
+
+
+**Note on cleaned_fulldf_withclusters.csv** (sorry for the horrible name): 
+- For modeling on raw variables, drop: "TransIrriCost_per_Acre","Ganaura_per_Acre","CropOrgFYM_per_Acre","BasalDAP_per_Acre","BasalUrea_per_Acre","1tdUrea_per_Acre","2tdUrea_per_Acre","Harv_hand_rent_per_Acre","Yield_per_Acre"
+- For modeling on per_acre, drop: "TransIrriCost","Ganaura","CropOrgFYM","BasalDAP","BasalUrea","1tdUrea","2tdUrea","Harv_hand_rent","Yield"
