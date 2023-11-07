@@ -8,6 +8,7 @@ The following Google Sheets documents are available for tracking data exploratio
 - **Variable Descriptions**: Summaries of all variables in the Crop Yield Estimate challenge
 
 [Literature Review and Agricultural Terminology](https://docs.google.com/spreadsheets/d/1rkmqYmPFRBwvi-g2wKKVJ9ZElrss3gw5C6AgDLTZF8k/edit?usp=sharing)
+
 [Variable Descriptions](https://docs.google.com/spreadsheets/d/1ASWzNjuvdYaqWgYlU4L_7gABIkig0wKU8GyFhQ19rx4/edit#gid=174692797)
 
 ### Open Questions
