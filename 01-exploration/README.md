@@ -1,6 +1,14 @@
 # Exploration
 
-Exploring different hypotheses and issues with the data for the Digital Green Crop Yield Estimate Challenge. Please track the different model configurations and the corresponding RMSE here. Please track open questions and data cleaning ideas here.
+Exploring different hypotheses and issues with the data for the Digital Green Crop Yield Estimate Challenge. Please track the different model configurations and the corresponding RMSE here. Please track open questions, literature reviews, key argicultural terminology, and potential solutions to the challenge here.
+
+The following Google Sheets documents are available for tracking data exploration progress:
+- **Literature Review**: Academic and technical literature on current best practices and proposed methodology for crop yield forecasting
+- **Agricultural Terminology**: Key terms and definitions for understanding crop yield forecasting
+- **Variable Descriptions**: Summaries of all variables in the Crop Yield Estimate challenge
+
+[Literature Review and Agricultural Terminology](https://docs.google.com/spreadsheets/d/1rkmqYmPFRBwvi-g2wKKVJ9ZElrss3gw5C6AgDLTZF8k/edit?usp=sharing)
+[Variable Descriptions](https://docs.google.com/spreadsheets/d/1ASWzNjuvdYaqWgYlU4L_7gABIkig0wKU8GyFhQ19rx4/edit#gid=174692797)
 
 ### Open Questions
 
