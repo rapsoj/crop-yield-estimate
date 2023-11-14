@@ -1,11 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# # Import & setup
-
-# In[2]:
-
-
 import pandas as pd
 import numpy as np
 import plotly.express as px
