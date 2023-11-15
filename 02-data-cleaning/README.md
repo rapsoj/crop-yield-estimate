@@ -6,7 +6,7 @@ This folder contains the following notebooks, to be executed in order within the
 
 - **01.01-cleaning**: Dealing with missing values, outliers, parsing messy categorical columns, adding per_acre cols, basic feature engineering
 - **01.02-clustering**: Adding cluster labels to the df (for k=2, k=3, k=4 and k=5 models, for now)
-- **01.03-feature-engineering**: Creating new features to improve predictions
+- **01.03-feature-engineering**: Creating new features to improve predictions (note: at this time, feature engineering is in 01.01)
 - **01.04-scaling**: Encoding, scaling, and normalising
 - **01.05-feature-selection**: Removing redundant or uninformative features
 - **01.06-dim-reduction**: Dimensionality reduction
