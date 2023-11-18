@@ -7,14 +7,12 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-def load_data(train_path, test_path):
-  train = pd.read_csv(train_path)
-  test = pd.read_csv(test_path)
-    
-  train["Set"] = "train"
-  test["Set"] = "test"
-    
-  df = pd.concat([train, test])
+def load_data(data_path):
+  df = pd.read_csv(data_path)
+
+  # Add column for yield if it does not already exist
+  if 'Yield' not in df.columns:
+    df['Yield'] = np.nan
     
   return df
 
@@ -29,8 +27,8 @@ def adjust_datetime_columns(df):
 
 def fix_errors(df):
   # Fix district typo
-  df.loc[(df["District"]=="Jamui") & (df["Block"]=="Gurua")].index
-  df.loc[2177,"District"] = "Gaya"
+  typo_row = df[(df["District"] == "Jamui") & (df["Block"] == "Gurua")].index
+  df.loc[typo_row, "Block"] = "Gaya"
 
   # For rows where XappDaysUrea is NaN but XtdUrea is not NaN, impute with block median
   subset = df.loc[(df["Block"]=="Rajgir")]
@@ -46,33 +44,6 @@ def fix_errors(df):
   return df
 
 
-def handle_outliers(df):
-  # Replace two extreme outliers in SeedlingsPerPit with the next highest value
-  df.loc[df["SeedlingsPerPit"]>22, "SeedlingsPerPit"] = 22
-  # Cap TransplantingIrrigationHours at reasonable value
-  df.loc[df["TransplantingIrrigationHours"]> 50, "TransplantingIrrigationHours"] = 450
-  # Cap TransIrriCost at reasonable value
-  df.loc[df["TransIrriCost"]>3000, "TransIrriCost"] = 3000
-  # Cap Ganaura at reasonable value and leave original column
-  df.loc[df["Ganaura"]>50, "Ganaura_capped"] = 50
-  # Replace extreme outlier in 1appDaysUrea with the next highest value
-  df["1appDaysUrea"] = df["1appDaysUrea"].replace(332, 75)
-  # Cap Harv_hand_rent at reasonable value
-  df.loc[df["Harv_hand_rent"]>20000, "Harv_hand_rent"] = 20000
-
-  return df
-
-
-def scale_per_acre(df):
-  per_acre_cols = ["TransIrriCost", "Ganaura", "CropOrgFYM", "BasalDAP", "BasalUrea",
-                   "1tdUrea", "2tdUrea", "Harv_hand_rent", "Yield"]
-  for col in per_acre_cols:
-    label = str(col) + "_per_Acre"
-    df[label] = df[col] / df["Acre"]
-
-  return df
-
-
 def parse_categorical(df):
   df["LandPrepMethod_TractorPlough"] = df["LandPreparationMethod"].str.contains("TractorPlough")
   df["LandPrepMethod_FourWheelTracRotavator"] = df["LandPreparationMethod"].str.contains("FourWheelTracRotavator")
@@ -83,35 +54,32 @@ def parse_categorical(df):
   df["NursDetFactor_CalendarDate"] = df["NursDetFactor"].str.contains("CalendarDate")
   df["NursDetFactor_PreMonsoonShowers"] = df["NursDetFactor"].str.contains("PreMonsoonShowers")
   df["NursDetFactor_IrrigWaterAvailability"] = df["NursDetFactor"].str.contains("IrrigWaterAvailability")
-  df["NursDetFactor_LabourAvailability"] = df["NursDetFactor"].str.contains("LabourAvailability" or "LaborAvailability")
+  df["NursDetFactor_LabourAvailability"] = df["NursDetFactor"].str.contains("LabourAvailability|LaborAvailability")
   df["NursDetFactor_SeedAvailability"] = df["NursDetFactor"].str.contains("SeedAvailability")
 
-  df["TransDetFactor_LabourAvailability"] = df["TransDetFactor"].str.contains("LabourAvailability" or "LaborAvailability")
+  df["TransDetFactor_LabourAvailability"] = df["TransDetFactor"].str.contains("LabourAvailability|LaborAvailability")
   df["TransDetFactor_CalendarDate"] = df["TransDetFactor"].str.contains("CalendarDate")
   df["TransDetFactor_RainArrival"] = df["TransDetFactor"].str.contains("RainArrival")
   df["TransDetFactor_IrrigWaterAvailability"] = df["TransDetFactor"].str.contains("IrrigWaterAvailability")
   df["TransDetFactor_SeedlingAge"] = df["TransDetFactor"].str.contains("SeedlingAge")
 
   df["CropbasalFerts"] = df["CropbasalFerts"].fillna("None")
-  fertilizer_types = ["Urea","DAP","Other","NPK","MoP","NPKS","SSP","None"]
+  fertilizer_types = ["Urea","DAP","NPK","MoP","NPKS","SSP","Other","None"]
   for fertilizer in fertilizer_types:
     label = "CropbasalFerts_" + fertilizer
     df[label] = df["CropbasalFerts"].str.contains(fertilizer)
 
   df["FirstTopDressFert"] = df["FirstTopDressFert"].fillna("None")
-  fertilizer_types2 = ["Urea","DAP","NPK","NPKS","SSP","Other"]
+  fertilizer_types2 = ["Urea","DAP","NPK","NPKS","SSP","Other","None"]
   for fertilizer in fertilizer_types2:
     label = "FirstTopDressFert_" + fertilizer
     df[label] = df["FirstTopDressFert"].str.contains(fertilizer)
 
   df["OrgFertilizers"] = df["OrgFertilizers"].fillna("None")
-  orgfertilizers = ["Ganaura","FYM","VermiCompost","Pranamrit","Ghanajeevamrit","Jeevamrit","PoultryManure"]
+  orgfertilizers = ["Ganaura","FYM","VermiCompost","Pranamrit","Ghanajeevamrit","Jeevamrit","PoultryManure","None"]
   for fertilizer in orgfertilizers:
     label = "OrgFertilizers_" + fertilizer
     df[label] = df["OrgFertilizers"].str.contains(fertilizer)
-
-  # Drop unparsed variables
-  df = df.drop(columns=["LandPreparationMethod","NursDetFactor","TransDetFactor","CropbasalFerts","FirstTopDressFert","OrgFertilizers"])
 
   return df
 
@@ -145,31 +113,62 @@ def replace_numeric_nan(df):
 
 def count_na(df):
   # Create a new variable counting the number of missing values for each row (excluding outcome variables)
-  df["Nb_of_NaN"] = df.drop(columns=["Yield","Yield_per_Acre"]).isnull().sum(axis=1)
+  df["Nb_of_NaN"] = df.drop(columns=["Yield"]).isnull().sum(axis=1)
 
   return df
 
 
 def impute_missing(df):
+  # Create imputation columns
+  df["TpIrrigationSource_Imputed"] = df["TransplantingIrrigationSource"]
+  df["TpIrrigationPowerSource_Imputed"] = df["TransplantingIrrigationPowerSource"]
+  df["TpIrrigationHours_Imputed"] = df["TransplantingIrrigationHours"]
   # Impute missing categorical values with no statistical significance using mode
-  df.loc[df["TransplantingIrrigationSource"].isnull()==True, "TransplantingIrrigationSource"] = df["TransplantingIrrigationSource"].mode()
-  df.loc[df["TransplantingIrrigationPowerSource"].isnull()==True, "TransplantingIrrigationPowerSource"] = df["TransplantingIrrigationPowerSource"].mode()
+  df.loc[df["TpIrrigationSource_Imputed"].isnull()==True, "TpIrrigationSource_Imputed"] = df["TpIrrigationSource_Imputed"].mode().iloc[0]
+  df.loc[df["TpIrrigationPowerSource_Imputed"].isnull()==True, "TpIrrigationPowerSource_Imputed"] = df["TpIrrigationPowerSource_Imputed"].mode().iloc[0]
   # Impute missing integers values with no statistical significance using median
-  df.loc[df["TransplantingIrrigationHours"].isnull()==True, "TransplantingIrrigationHours"] = df["TransplantingIrrigationHours"].median()
+  df.loc[df["TpIrrigationHours_Imputed"].isnull()==True, "TpIrrigationHours_Imputed"] = df["TpIrrigationHours_Imputed"].median()
 
   return df
 
 
-def clean_data(train_path, test_path):
-  df = load_data(train_path, test_path)
+def handle_outliers(df):
+  # Replace extreme outlier in SeedlingsPerPit with the next highest value
+  df.loc[df["SeedlingsPerPit"]>22, "SeedlingsPerPit"] = 22
+  # Replace extreme outlier in TransplantingIrrigationHours with reasonable value
+  df.loc[df["TransplantingIrrigationHours"]>450, "TransplantingIrrigationHours"] = 450
+  # Replace two extreme outliers in TransIrriCost with reasonable value
+  df.loc[df["TransIrriCost"]>3000, "TransIrriCost"] = 3000
+  # Replace extreme outlier in Harv_hand_rent with reasonable value
+  df.loc[df["Harv_hand_rent"]>20000, "Harv_hand_rent"] = 20000
+  # Replace extreme outlier in 1appDaysUrea with the next highest value
+  df["1appDaysUrea"] = df["1appDaysUrea"].replace(332, 75)
+  # Cap Ganaura at reasonable value and keep original column
+  df["Ganaura_capped"] = df["Ganaura"]
+  df.loc[df["Ganaura"]>50, "Ganaura_capped"] = 50
+
+  return df
+
+
+def scale_per_acre(df):
+  per_acre_cols = ["TransplantingIrrigationHours", "TpIrrigationHours_Imputed", "TransIrriCost", "Ganaura", "CropOrgFYM",
+                   "BasalDAP", "BasalUrea", "1tdUrea", "2tdUrea", "Harv_hand_rent", "Yield"]
+  for col in per_acre_cols:
+    label = str(col) + "_per_Acre"
+    df[label] = df[col] / df["Acre"]
+
+  return df
+
+
+def clean_data(data_path):
+  df = load_data(data_path)
   df = adjust_datetime_columns(df)
   df = fix_errors(df)
-  df = handle_outliers(df)
-  df = scale_per_acre(df)
   df = parse_categorical(df)
   df = replace_binary_nan(df)
   df = replace_numeric_nan(df)
   df = count_na(df)
   df = impute_missing(df)
+  df = handle_outliers(df)
 
   return df
