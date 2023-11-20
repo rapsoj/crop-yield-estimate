@@ -16,6 +16,7 @@ def load_data(data_path):
     
   return df
 
+
 def fix_duplicate(df):
 
   df = df.rename(columns={'MineralFertAppMethod': 'MineralFertAppMethod_1','MineralFertAppMethod.1': 'MineralFertAppMethod_2'})
