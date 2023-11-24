@@ -10,3 +10,4 @@ This folder contains the following notebooks, to be executed in order within the
 - **01.04-scaling**: Encoding, scaling, and normalising
 - **01.05-feature-selection**: Removing redundant or uninformative features
 - **01.06-dim-reduction**: Dimensionality reduction
+- **01.07-outlier-classification**: Classification model for outliers vs non-outliers on yield-per-acre, with predictions for the test set.
