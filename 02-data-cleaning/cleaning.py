@@ -31,6 +31,19 @@ def adjust_datetime_columns(df):
 
   return df
 
+def create_month_columns(df):
+  df["CropTillageMonth"] = df["CropTillageDate"].dt.month
+  df["RcNursEstMonth"] = df["RcNursEstDate"].dt.month
+  df["SeedingSowingTransplantingMonth"] = df["SeedingSowingTransplanting"].dt.month
+  df["HarvMonth"] = df["Harv_date"].dt.month
+  df["ThreshingMonth"] = df["Threshing_date"].dt.month
+
+  return df
+
+def remove_date_columns(df):
+  df = df.drop(columns=["CropTillageDate", "RcNursEstDate", "SeedingSowingTransplanting", "Harv_date", "Threshing_date"])
+  return df
+
 
 def fix_errors(df):
   # Fix district typo
@@ -172,6 +185,8 @@ def clean_data(data_path):
   df = fix_duplicate(df)
   df = adjust_datetime_columns(df)
   df = fix_errors(df)
+  #df = create_month_columns(df)
+  #df = remove_date_columns(df)
   df = parse_categorical(df)
   df = replace_binary_nan(df)
   df = replace_numeric_nan(df)
