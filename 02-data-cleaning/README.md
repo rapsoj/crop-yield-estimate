@@ -11,4 +11,4 @@ This folder contains the following notebooks, to be executed in order within the
 - **01.05-feature-selection**: Removing redundant or uninformative features
 - **01.05b-outlier-classification**: Classification model for outliers vs non-outliers on yield-per-acre, with predictions for the test set.
 - **01.06-dim-reduction**: Dimensionality reduction
-- **01.07-Mean-Frequency-Encoding**: Encoding frequencies & Yield_per_Acre means for important features, + linear regression for important continuous variables. (NOTE: need to fix Num_CropbasalFerts & another bc values don't match between the train & test set, so currently the encodings are meaningless)
+- **01.07-Mean-Frequency-Encoding**: Encoding frequencies & Yield_per_Acre means for important features, + linear regression for important continuous variables. (NOTE: need to fix Num_CropbasalFerts & another bc values don't match between the train & test set, so currently the encodings are meaningless) (NOTE2: this uses the dftrain.csv & dftest.csv obtained from test.ipynb)
