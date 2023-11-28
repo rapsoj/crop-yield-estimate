@@ -9,7 +9,7 @@ warnings.filterwarnings("ignore")
 
 def get_scaled_per_acre(df):
   per_acre_cols = ["TransplantingIrrigationHours", "TpIrrigationHours_Imputed", "TransIrriCost", "Ganaura", "CropOrgFYM",
-                   "BasalDAP", "BasalUrea", "1tdUrea", "2tdUrea", "Harv_hand_rent", "Yield"]
+                   "BasalDAP", "BasalUrea", "1tdUrea", "2tdUrea", "Harv_hand_rent", "Yield", "New_Yield"]
   for col in per_acre_cols:
     label = str(col) + "_per_Acre"
     df[label] = df[col] / df["Acre"]
@@ -18,11 +18,12 @@ def get_scaled_per_acre(df):
 
 
 def get_nan_indicators(df):
-    df['RcNursEstDate_NaN'] = df['RcNursEstDate'].isna()
-    df['SeedlingsPerPit_NaN'] = df['SeedlingsPerPit'].isna()
-    df['TransplantingIrrigationSource_NaN'] = df['TransplantingIrrigationSource'].isna()
-    df['TransplantingIrrigationPowerSource_NaN'] = df['TransplantingIrrigationPowerSource'].isna()
-    df['TransplantingIrrigationHours_NaN'] = df['TransplantingIrrigationHours'].isna()
+    nan_cols = ['RcNursEstDate','SeedlingsPerPit','TransplantingIrrigationSource','TransplantingIrrigationPowerSource',
+                'TransplantingIrrigationHours','PCropSolidOrgFertAppMethod','CropbasalFerts','FirstTopDressFert', 
+                'TransIrriCost','StandingWater','OrgFertilizers','Ganaura','2appDaysUrea','MineralFertAppMethod_2']
+    for col in nan_cols:
+        label = f"{col}_NaN"
+        df[label] = df[col].isna()
 
     return df
 
@@ -63,25 +64,38 @@ def calculate_date_difference(ref, col, month_day):
 
 def get_date_mode_difference(df):
     ref = df['CropTillageDate']
-    # Calculate the difference from the training set annual mode date for each step
-    df["NursingDate_ModeDiff"] = calculate_date_difference(ref, df["RcNursEstDate"], "06-28")
-    df["TillageDate_ModeDiff"] = calculate_date_difference(ref, df["CropTillageDate"], "07-20")
-    df["SowTransplantDate_ModeDiff"] = calculate_date_difference(ref, df["SeedingSowingTransplanting"], "07-28")
-    df["HarvestDate_ModeDiff"] = calculate_date_difference(ref, df["Harv_date"], "11-05")
-    df["ThreshingDate_ModeDiff"] = calculate_date_difference(ref, df["Threshing_date"], "12-22")
+    # Calculate the difference from the annual mode date for each step
+    df["NursingDate_ModeDiff"] = calculate_date_difference(
+        ref, df["RcNursEstDate"], str(df['RcNursEstDate'].mode()[0])[5:10])
+    df["TillageDate_ModeDiff"] = calculate_date_difference(
+        ref, df["CropTillageDate"], str(df['CropTillageDate'].mode()[0])[5:10])
+    df["SowTransplantDate_ModeDiff"] = calculate_date_difference(
+        ref, df["SeedingSowingTransplanting"], str(df['SeedingSowingTransplanting'].mode()[0])[5:10])
+    df["HarvestDate_ModeDiff"] = calculate_date_difference(
+        ref, df["Harv_date"], str(df['Harv_date'].mode()[0])[5:10])
+    df["ThreshingDate_ModeDiff"] = calculate_date_difference(
+        ref, df["Threshing_date"], str(df['Threshing_date'].mode()[0])[5:10])
 
     return df
 
 
 def get_days_mode_difference(df):
-    # Calculate the difference from the training set mode days for each variable
-    df["Days_bw_Nurs_SowTransp_ModeDiff"] = df["Days_bw_Nurs_SowTransp"] - 24
-    df["Days_bw_Nurs_Harv_ModeDiff"] = df["Days_bw_Nurs_Harv"] - 127
-    df["Days_bw_Nurs_Till_ModeDiff"] = df["Days_bw_Nurs_Till"] - 22
-    df["Days_bw_Till_SowTransp_ModeDiff"] = df["Days_bw_Till_SowTransp"] - 1
-    df["Days_bw_Till_Harv_ModeDiff"] = df["Days_bw_Till_Harv"] - 132
-    df["Days_bw_SowTransp_Harv_ModeDiff"] = df["Days_bw_SowTransp_Harv"] - 124
-    df["Days_bw_Harv_Thresh_ModeDiff"] = df["Days_bw_Harv_Thresh"] - 10
+    # Calculate the difference from the mode days for each variable
+    df["Days_bw_Nurs_SowTransp_ModeDiff"] = df["Days_bw_Nurs_SowTransp"] - df["Days_bw_Nurs_SowTransp"].mode()[0]
+    df["Days_bw_Nurs_Harv_ModeDiff"] = df["Days_bw_Nurs_Harv"] - df["Days_bw_Nurs_Harv"].mode()[0]
+    df["Days_bw_Nurs_Till_ModeDiff"] = df["Days_bw_Nurs_Till"] - df["Days_bw_Nurs_Till"].mode()[0]
+    df["Days_bw_Till_SowTransp_ModeDiff"] = df["Days_bw_Till_SowTransp"] - df["Days_bw_Till_SowTransp"].mode()[0]
+    df["Days_bw_Till_Harv_ModeDiff"] = df["Days_bw_Till_Harv"] - df["Days_bw_Till_Harv"].mode()[0]
+    df["Days_bw_SowTransp_Harv_ModeDiff"] = df["Days_bw_SowTransp_Harv"] - df["Days_bw_SowTransp_Harv"].mode()[0]
+    df["Days_bw_Harv_Thresh_ModeDiff"] = df["Days_bw_Harv_Thresh"] - df["Days_bw_Harv_Thresh"].mode()[0]
+
+    return df
+
+
+def get_mean_difference(df):
+    # Calculate the difference from the mean for each variable
+    df["2appDaysUrea_MeanDiff"] = df["2appDaysUrea"] - df["2appDaysUrea"].mean()
+    df["2appDaysUrea_Imputed_MeanDiff"] = df["2appDaysUrea_Imputed"] - df["2appDaysUrea_Imputed"].mean()
 
     return df
  
@@ -94,24 +108,29 @@ def get_months(df):
   df["HarvestMonth"] = df["Harv_date"].dt.month_name()
   df["ThreshingMonth"] = df["Threshing_date"].dt.month_name()
 
+  # Fix low value months
+  df["CropTillageMonth"] = np.where(df['CropTillageMonth'] == 'May', 'June', df["CropTillageMonth"])
+  df["HarvestMonth"] = np.where(df['HarvestMonth'] == 'September', 'October', df['HarvestMonth'])
+  df["HarvestMonth"] = np.where(df['HarvestMonth'].isin(['January', 'February', 'March']), 'December', df['HarvestMonth'])
+
   return df
 
 
 def assign_season(col):
     # Assign seasons based Bihars's seasonal patterns
     conditions = [
-        col.isin(['June', 'July', 'August', 'September']),
-        col.isin(['October', 'November', 'December']),
-        col.isin(['January', 'February', 'March']),
-        col.isin(['April', 'May'])
+        col.isin(['June','July','August','September']),
+        col.isin(['October','November','December']),
+        col.isin(['January','February','March']),
+        col.isin(['April','May'])
     ]
-    choices = ['Monsoon', 'Post-Monsoon', 'Winter', 'Summer']
+    choices = ['Monsoon','Post-Monsoon','Winter','Summer']
     result = np.select(conditions, choices, default=np.nan)
     return result
 
 
 def get_seasons(df):
-    month_cols = ['CropTillage', 'Nursing', 'SowTransplant', 'Harvest', 'Threshing']
+    month_cols = ['CropTillage','Nursing','SowTransplant','Harvest','Threshing']
 
     for col in month_cols:
         df[f'{col}Season'] = assign_season(df[f'{col}Month'])
@@ -177,6 +196,7 @@ def get_features(df):
     df = get_date_step_distance(df)
     df = get_date_mode_difference(df)
     df = get_days_mode_difference(df)
+    df = get_mean_difference(df)
     df = get_months(df)
     df = get_seasons(df)
     df = get_total_crop_cycle_duration(df)

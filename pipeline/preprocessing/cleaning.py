@@ -7,13 +7,16 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-def load_data(data_path):
-  df = pd.read_csv(data_path)
+def load_data(train_path, test_path):
+  df_train = pd.read_csv(train_path)
+  df_test = pd.read_csv(test_path)
 
-  # Add column for yield if it does not already exist
-  if 'Yield' not in df.columns:
-    df['Yield'] = np.nan
-    
+  # Add column for yield to test dataframe
+  df_test['Yield'] = np.nan
+
+  # Combine data
+  df = pd.concat([df_train, df_test], axis=0)
+     
   return df
 
 
@@ -130,11 +133,15 @@ def impute_missing(df):
   df["TpIrrigationSource_Imputed"] = df["TransplantingIrrigationSource"]
   df["TpIrrigationPowerSource_Imputed"] = df["TransplantingIrrigationPowerSource"]
   df["TpIrrigationHours_Imputed"] = df["TransplantingIrrigationHours"]
+  df["SeedlingsPerPit_Imputed"] = df["SeedlingsPerPit"]
+  df["2appDaysUrea_Imputed"] = df["2appDaysUrea"]
   # Impute missing categorical values with no statistical significance using mode
   df.loc[df["TpIrrigationSource_Imputed"].isnull()==True, "TpIrrigationSource_Imputed"] = df["TpIrrigationSource_Imputed"].mode().iloc[0]
   df.loc[df["TpIrrigationPowerSource_Imputed"].isnull()==True, "TpIrrigationPowerSource_Imputed"] = df["TpIrrigationPowerSource_Imputed"].mode().iloc[0]
   # Impute missing integers values with no statistical significance using median
   df.loc[df["TpIrrigationHours_Imputed"].isnull()==True, "TpIrrigationHours_Imputed"] = df["TpIrrigationHours_Imputed"].median()
+  df.loc[df["SeedlingsPerPit_Imputed"].isnull()==True, "SeedlingsPerPit_Imputed"] = df["SeedlingsPerPit_Imputed"].median()
+  df.loc[df["2appDaysUrea_Imputed"].isnull()==True, "2appDaysUrea_Imputed"] = df["2appDaysUrea_Imputed"].median()
 
   return df
 
@@ -157,18 +164,29 @@ def handle_outliers(df):
   return df
 
 
-def scale_per_acre(df):
-  per_acre_cols = ["TransplantingIrrigationHours", "TpIrrigationHours_Imputed", "TransIrriCost", "Ganaura", "CropOrgFYM",
-                   "BasalDAP", "BasalUrea", "1tdUrea", "2tdUrea", "Harv_hand_rent", "Yield"]
-  for col in per_acre_cols:
-    label = str(col) + "_per_Acre"
-    df[label] = df[col] / df["Acre"]
+def rescale_entry_errors(df):
+  # Split into training and test sets
+  df_train = df[df['Yield'].isna() == False]
+  df_test = df[df['Yield'].isna() == True]
+
+  # Perform linear regression
+  slope, intercept = np.polyfit(df_train['Acre'], df_train['Yield'], 1)
+  # Calculate residuals
+  predicted_y = slope * df_train['Acre'] + intercept
+  residuals = df_train['Yield'] - predicted_y
+  df_train['Residuals'] = residuals
+  # Transform potential entry errors
+  df_train['New_Yield'] = np.where(df_train['Residuals'] >= 1200, df_train['Yield'] / 10, df_train['Yield'])
+
+  # Combine data
+  df_test['New_Yield'] = np.nan
+  df = pd.concat([df_train, df_test], axis=0)
 
   return df
 
 
-def clean_data(data_path):
-  df = load_data(data_path)
+def clean_data(train_path, test_path):
+  df = load_data(train_path, test_path)
   df = fix_duplicate(df)
   df = adjust_datetime_columns(df)
   df = fix_errors(df)
@@ -178,5 +196,6 @@ def clean_data(data_path):
   df = count_na(df)
   df = impute_missing(df)
   df = handle_outliers(df)
+  df = rescale_entry_errors(df)
 
   return df
