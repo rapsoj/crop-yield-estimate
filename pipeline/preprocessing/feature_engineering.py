@@ -9,7 +9,8 @@ warnings.filterwarnings("ignore")
 
 def get_scaled_per_acre(df):
   per_acre_cols = ["TransplantingIrrigationHours", "TpIrrigationHours_Imputed", "TransIrriCost", "Ganaura", "CropOrgFYM",
-                   "BasalDAP", "BasalUrea", "1tdUrea", "2tdUrea", "Harv_hand_rent", "Yield", "New_Yield"]
+                   "BasalDAP", "BasalUrea", "1tdUrea", "2tdUrea", "Harv_hand_rent", "Yield", "New_Yield", "TransIrriCost",
+                   "TpIrrigationCost_Imputed"]
   for col in per_acre_cols:
     label = str(col) + "_per_Acre"
     df[label] = df[col] / df["Acre"]
@@ -20,7 +21,8 @@ def get_scaled_per_acre(df):
 def get_nan_indicators(df):
     nan_cols = ['RcNursEstDate','SeedlingsPerPit','TransplantingIrrigationSource','TransplantingIrrigationPowerSource',
                 'TransplantingIrrigationHours','PCropSolidOrgFertAppMethod','CropbasalFerts','FirstTopDressFert', 
-                'TransIrriCost','StandingWater','OrgFertilizers','Ganaura','2appDaysUrea','MineralFertAppMethod_2']
+                'TransIrriCost','StandingWater','OrgFertilizers','Ganaura','2appDaysUrea','MineralFertAppMethod_2',
+                '1appDaysUrea','TransIrriCost']
     for col in nan_cols:
         label = f"{col}_NaN"
         df[label] = df[col].isna()
