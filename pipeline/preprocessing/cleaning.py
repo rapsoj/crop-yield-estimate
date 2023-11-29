@@ -137,9 +137,11 @@ def impute_missing(df):
   df["SeedlingsPerPit_Imputed"] = df["SeedlingsPerPit"]
   df["1appDaysUrea_Imputed"] = df["1appDaysUrea"]
   df["2appDaysUrea_Imputed"] = df["2appDaysUrea"]
+
   # Impute missing categorical values with no statistical significance using mode
   df.loc[df["TpIrrigationSource_Imputed"].isnull()==True, "TpIrrigationSource_Imputed"] = df["TpIrrigationSource_Imputed"].mode().iloc[0]
   df.loc[df["TpIrrigationPowerSource_Imputed"].isnull()==True, "TpIrrigationPowerSource_Imputed"] = df["TpIrrigationPowerSource_Imputed"].mode().iloc[0]
+  
   # Impute missing integers values with no statistical significance using median
   df.loc[df["TpIrrigationHours_Imputed"].isnull()==True, "TpIrrigationHours_Imputed"] = df["TpIrrigationHours_Imputed"].median()
   df.loc[df["TpIrrigationCost_Imputed"].isnull()==True, "TpIrrigationCost_Imputed"] = df["TpIrrigationCost_Imputed"].median()

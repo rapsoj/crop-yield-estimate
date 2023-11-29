@@ -32,7 +32,7 @@ def encode_cat_drop(df):
 						 'TransplantingIrrigationPowerSource_NaN','TransplantingIrrigationHours_NaN','PCropSolidOrgFertAppMethod_NaN',
 						 'CropbasalFerts_NaN','FirstTopDressFert_NaN','TransIrriCost_NaN','StandingWater_NaN','OrgFertilizers_NaN',
 						 'Ganaura_NaN','2appDaysUrea_NaN','MineralFertAppMethod_2_NaN','CropTillageMonth','1appDaysUrea_NaN',
-						 'NursingMonth','SowTransplantMonth','HarvestMonth','ThreshingMonth','TransIrriCost_NaN']
+						 'NursingMonth','SowTransplantMonth','HarvestMonth','ThreshingMonth']
 	df = pd.get_dummies(df, columns=columns_to_encode, drop_first=True)
 
 	return df
@@ -64,7 +64,9 @@ def scale_standard(df):
 					    'Days_bw_Nurs_Harv_ModeDiff','Days_bw_Nurs_Till_ModeDiff','Days_bw_Till_SowTransp_ModeDiff','Days_bw_Till_Harv_ModeDiff',
 					    'Days_bw_SowTransp_Harv_ModeDiff','Days_bw_Harv_Thresh_ModeDiff','Total_Crop_Cycle_Duration','2appDaysUrea_MeanDiff',
 					    '2appDaysUrea_Imputed_MeanDiff','1appDaysUrea_Imputed','2appDaysUrea_Imputed','TpIrrigationHours_Imputed',
-					    'TpIrrigationCost_Imputed_per_Acre']
+					    'TpIrrigationCost_Imputed_per_Acre','TransIrriCost_per_Acre_capped','TpIrrigationCost_Imputed_per_Acre_capped',
+					    'Days_bw_Nurs_SowTransp_Imputed','Days_bw_Nurs_Harv_Imputed','Days_bw_Nurs_Till_Imputed','NursingDate_ModeDiff_Imputed',
+					    'Days_bw_Nurs_SowTransp_ModeDiff_Imputed','Days_bw_Nurs_Harv_ModeDiff_Imputed','Days_bw_Nurs_Till_ModeDiff_Imputed']
 	df[columns_to_scale] = scaler.fit_transform(df[columns_to_scale])
 
 	return df

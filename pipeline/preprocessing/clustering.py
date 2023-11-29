@@ -1,11 +1,8 @@
 import pandas as pd
 import numpy as np
-import calendar
-from datetime import datetime
 
 from sklearn.cluster import SpectralClustering
 from sklearn.preprocessing import StandardScaler, normalize
-from sklearn.decomposition import PCA
 from sklearn.metrics import silhouette_score
 
 import warnings
