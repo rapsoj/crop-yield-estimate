@@ -8,19 +8,32 @@ warnings.filterwarnings("ignore")
 
 
 def get_scaled_per_acre(df):
-  per_acre_cols = ["TransplantingIrrigationHours", "TpIrrigationHours_Imputed", "TransIrriCost", "Ganaura", "CropOrgFYM",
-                   "BasalDAP", "BasalUrea", "1tdUrea", "2tdUrea", "Harv_hand_rent", "Yield", "New_Yield"]
-  for col in per_acre_cols:
-    label = str(col) + "_per_Acre"
-    df[label] = df[col] / df["Acre"]
+    per_acre_cols = ["TransplantingIrrigationHours", "TpIrrigationHours_Imputed", "TransIrriCost", "Ganaura", "CropOrgFYM",
+                   "BasalDAP", "BasalUrea", "1tdUrea", "2tdUrea", "Harv_hand_rent", "Yield", "New_Yield", "TransIrriCost",
+                   "TpIrrigationCost_Imputed"]
+    for col in per_acre_cols:
+        label = str(col) + "_per_Acre"
+        df[label] = df[col] / df["Acre"]
 
-  return df
+    return df
+
+
+def handle_per_acre_outliers(df):
+    # Replace extreme outliers in TransIrriCost_per_Acre with the next highest value and keep original column
+    df["TransIrriCost_per_Acre_capped"] = df["TransIrriCost_per_Acre"]
+    df.loc[df["TransIrriCost_per_Acre"]>5000, "TransIrriCost_per_Acre_capped"] = 5000
+    # Replace extreme outliers in TransIrriCost_per_Acre with the next highest value and keep original column
+    df["TpIrrigationCost_Imputed_per_Acre_capped"] = df["TpIrrigationCost_Imputed_per_Acre"]
+    df.loc[df["TpIrrigationCost_Imputed_per_Acre"]>5000, "TpIrrigationCost_Imputed_per_Acre_capped"] = 5000
+
+    return df
 
 
 def get_nan_indicators(df):
     nan_cols = ['RcNursEstDate','SeedlingsPerPit','TransplantingIrrigationSource','TransplantingIrrigationPowerSource',
                 'TransplantingIrrigationHours','PCropSolidOrgFertAppMethod','CropbasalFerts','FirstTopDressFert', 
-                'TransIrriCost','StandingWater','OrgFertilizers','Ganaura','2appDaysUrea','MineralFertAppMethod_2']
+                'TransIrriCost','StandingWater','OrgFertilizers','Ganaura','2appDaysUrea','MineralFertAppMethod_2',
+                '1appDaysUrea','TransIrriCost']
     for col in nan_cols:
         label = f"{col}_NaN"
         df[label] = df[col].isna()
@@ -29,27 +42,27 @@ def get_nan_indicators(df):
 
 
 def get_date_step_distance(df):
-  # Calculate number of days between key stages of the crop cycle
-  df["Days_bw_Nurs_SowTransp"] = df["SeedingSowingTransplanting"] - df["RcNursEstDate"]
-  df["Days_bw_Nurs_Harv"] = df["Harv_date"] - df["RcNursEstDate"]
-  df["Days_bw_Nurs_Till"] = df["CropTillageDate"] - df["RcNursEstDate"]
-  df["Days_bw_Till_SowTransp"] = df["SeedingSowingTransplanting"] - df["CropTillageDate"]
-  df["Days_bw_Till_Harv"] = df["Harv_date"] - df["CropTillageDate"]
-  df["Days_bw_SowTransp_Harv"] = df["Harv_date"] - df["SeedingSowingTransplanting"]
-  df["Days_bw_Harv_Thresh"] = df["Threshing_date"] - df["Harv_date"]
+    # Calculate number of days between key stages of the crop cycle
+    df["Days_bw_Nurs_SowTransp"] = df["SeedingSowingTransplanting"] - df["RcNursEstDate"]
+    df["Days_bw_Nurs_Harv"] = df["Harv_date"] - df["RcNursEstDate"]
+    df["Days_bw_Nurs_Till"] = df["CropTillageDate"] - df["RcNursEstDate"]
+    df["Days_bw_Till_SowTransp"] = df["SeedingSowingTransplanting"] - df["CropTillageDate"]
+    df["Days_bw_Till_Harv"] = df["Harv_date"] - df["CropTillageDate"]
+    df["Days_bw_SowTransp_Harv"] = df["Harv_date"] - df["SeedingSowingTransplanting"]
+    df["Days_bw_Harv_Thresh"] = df["Threshing_date"] - df["Harv_date"]
 
-  # Re-format new variables
-  days_cols = ["Days_bw_Nurs_SowTransp","Days_bw_Nurs_Harv","Days_bw_Nurs_Till","Days_bw_Till_SowTransp",
+    # Re-format new variables
+    days_cols = ["Days_bw_Nurs_SowTransp","Days_bw_Nurs_Harv","Days_bw_Nurs_Till","Days_bw_Till_SowTransp",
                "Days_bw_Till_Harv","Days_bw_SowTransp_Harv","Days_bw_Harv_Thresh"]
-  for col in days_cols:
-    df[col] = df[col].astype(str).str[:-5]
-    df.loc[df[col]=='', col] = np.nan # Format missing values
+    for col in days_cols:
+        df[col] = df[col].astype(str).str[:-5]
+        df.loc[df[col]=='', col] = np.nan # Format missing values
 
-  # Format date distances as floats
-  for col in days_cols:
-    df[col] = df[col].astype(float)
+    # Format date distances as floats
+    for col in days_cols:
+        df[col] = df[col].astype(float)
 
-  return(df)
+    return(df)
 
 
 def calculate_date_difference(ref, col, month_day):
@@ -101,19 +114,44 @@ def get_mean_difference(df):
  
 
 def get_months(df):
-  # Extract months from date variables
-  df["CropTillageMonth"] = df["CropTillageDate"].dt.month_name()
-  df["NursingMonth"] = df["RcNursEstDate"].dt.month_name()
-  df["SowTransplantMonth"] = df["SeedingSowingTransplanting"].dt.month_name()
-  df["HarvestMonth"] = df["Harv_date"].dt.month_name()
-  df["ThreshingMonth"] = df["Threshing_date"].dt.month_name()
+    # Extract months from date variables
+    df["CropTillageMonth"] = df["CropTillageDate"].dt.month_name()
+    df["NursingMonth"] = df["RcNursEstDate"].dt.month_name()
+    df["SowTransplantMonth"] = df["SeedingSowingTransplanting"].dt.month_name()
+    df["HarvestMonth"] = df["Harv_date"].dt.month_name()
+    df["ThreshingMonth"] = df["Threshing_date"].dt.month_name()
 
-  # Fix low value months
-  df["CropTillageMonth"] = np.where(df['CropTillageMonth'] == 'May', 'June', df["CropTillageMonth"])
-  df["HarvestMonth"] = np.where(df['HarvestMonth'] == 'September', 'October', df['HarvestMonth'])
-  df["HarvestMonth"] = np.where(df['HarvestMonth'].isin(['January', 'February', 'March']), 'December', df['HarvestMonth'])
+    # Fix low value months
+    df["CropTillageMonth"] = np.where(df['CropTillageMonth'] == 'May', 'June', df["CropTillageMonth"])
+    df["HarvestMonth"] = np.where(df['HarvestMonth'] == 'September', 'October', df['HarvestMonth'])
+    df["HarvestMonth"] = np.where(df['HarvestMonth'].isin(['January', 'February', 'March']), 'December', df['HarvestMonth'])
 
-  return df
+    return df
+
+
+def impute_nursing(df):
+    # Create imputation columns
+    df["Days_bw_Nurs_SowTransp_Imputed"] = df["Days_bw_Nurs_SowTransp"]
+    df["Days_bw_Nurs_Harv_Imputed"] = df["Days_bw_Nurs_Harv"]
+    df["Days_bw_Nurs_Till_Imputed"] = df["Days_bw_Nurs_Till"]
+    df["NursingDate_ModeDiff_Imputed"] = df["NursingDate_ModeDiff"]
+    df["Days_bw_Nurs_SowTransp_ModeDiff_Imputed"] = df["Days_bw_Nurs_SowTransp_ModeDiff"]
+    df["Days_bw_Nurs_Harv_ModeDiff_Imputed"] = df["Days_bw_Nurs_Harv_ModeDiff"]
+    df["Days_bw_Nurs_Till_ModeDiff_Imputed"] = df["Days_bw_Nurs_Till_ModeDiff"]
+
+    # Impute missing integers values for nursing-related variables
+    df.loc[df["Days_bw_Nurs_SowTransp_Imputed"].isnull()==True, "Days_bw_Nurs_SowTransp_Imputed"] = df["Days_bw_Nurs_SowTransp_Imputed"].median()
+    df.loc[df["Days_bw_Nurs_Harv_Imputed"].isnull()==True, "Days_bw_Nurs_Harv_Imputed"] = df["Days_bw_Nurs_Harv_Imputed"].median()
+    df.loc[df["Days_bw_Nurs_Till_Imputed"].isnull()==True, "Days_bw_Nurs_Till_Imputed"] = df["Days_bw_Nurs_Till_Imputed"].median()
+    df.loc[df["NursingDate_ModeDiff_Imputed"].isnull()==True, "NursingDate_ModeDiff_Imputed"] = df["NursingDate_ModeDiff_Imputed"].median()
+    df.loc[df["Days_bw_Nurs_SowTransp_ModeDiff_Imputed"].isnull()==True,
+           "Days_bw_Nurs_SowTransp_ModeDiff_Imputed"] = df["Days_bw_Nurs_SowTransp_ModeDiff_Imputed"].median()
+    df.loc[df["Days_bw_Nurs_Harv_ModeDiff_Imputed"].isnull()==True,
+           "Days_bw_Nurs_Harv_ModeDiff_Imputed"] = df["Days_bw_Nurs_Harv_ModeDiff_Imputed"].median()
+    df.loc[df["Days_bw_Nurs_Till_ModeDiff_Imputed"].isnull()==True,
+              "Days_bw_Nurs_Till_ModeDiff_Imputed"] = df["Days_bw_Nurs_Till_ModeDiff_Imputed"].median()
+
+    return df
 
 
 def assign_season(col):
@@ -192,12 +230,14 @@ def get_geography(df):
 
 def get_features(df):
     df = get_scaled_per_acre(df)
+    df = handle_per_acre_outliers(df)
     df = get_nan_indicators(df)
     df = get_date_step_distance(df)
     df = get_date_mode_difference(df)
     df = get_days_mode_difference(df)
     df = get_mean_difference(df)
     df = get_months(df)
+    df = impute_nursing(df)
     df = get_seasons(df)
     df = get_total_crop_cycle_duration(df)
     df = get_num_options_used(df)
