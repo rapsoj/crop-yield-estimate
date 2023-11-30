@@ -1,0 +1,7 @@
+Best N: 105
+Lowest RMSE: 108.07931308847343
+
+OR 
+
+Best N: 62
+Lowest RMSE: 108.1
