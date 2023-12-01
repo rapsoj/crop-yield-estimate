@@ -1,16 +1,43 @@
 import pandas as pd
 import numpy as np
 
-from sklearn.cluster import SpectralClustering
-from sklearn.preprocessing import StandardScaler, normalize
-from sklearn.metrics import silhouette_score
+from sklearn.cluster import KMeans
 
 import warnings
 warnings.filterwarnings("ignore")
 
+def run_kmeans(k_range, input_df, output_df, var_name):
+    col_list = []
+    for k in k_range:
+        kmeans = KMeans(n_clusters=k, random_state=0)
+        kmeans.fit(input_df)
+        colname = var_name + '_' + f'k{k}_label'
+        col_list.append(colname)
+        output_df[colname] = kmeans.labels_
+    return output_df, col_list
 
-# to add: FirstTopDressFert, CropbasalFerts, OrgFertilizers, should also add months and date differences!
-cdf = df[['CropTillageDepth','CropEstMethod_LineSowingAfterTillage','CropEstMethod_Manual_PuddledLine',
+
+def get_kmeans_all(df):
+  # Calculate k-means clusters for all variables
+  cdf = df[['PC1','PC2','PC3','PC4','PC5','PC6','PC7','PC8','PC9','PC10','PC11',
+            'PC12','PC13','PC14','PC15','PC16','PC17','PC18','PC19','PC20','PC21']]
+
+  # Run k-means clustering
+  var_name = 'all'
+  k_range = range(2,6)
+  cdf_results = cdf.copy()
+  run_kmeans(k_range, cdf, cdf_results, var_name)
+
+  # Add results to data
+  data = pd.get_dummies(cdf_results.iloc[:,-k_range[-2]:], columns = list(cdf_results.iloc[:,-k_range[-2]:].columns), drop_first=True)
+  df = pd.concat([df, data], axis=1)
+
+  return df
+
+
+def get_kmeans_crop(df):
+  # Calculate k-means clusters for crop identification variables
+  cdf = df[['CropTillageDepth','CropEstMethod_LineSowingAfterTillage','CropEstMethod_Manual_PuddledLine',
           'CropEstMethod_Manual_PuddledRandom','SeedlingsPerPit_Imputed','TpIrrigationHours_Imputed',
           'TransplantingIrrigationSource_Boring','TransplantingIrrigationSource_Canal',
           'TransplantingIrrigationSource_Pond','TransplantingIrrigationSource_Rainfed',
@@ -24,60 +51,52 @@ cdf = df[['CropTillageDepth','CropEstMethod_LineSowingAfterTillage','CropEstMeth
           'Ganaura_per_Acre','CropOrgFYM_per_Acre','PCropSolidOrgFertAppMethod_Broadcasting',
           'PCropSolidOrgFertAppMethod_RootApplication','PCropSolidOrgFertAppMethod_SoilApplied',
           'NoFertilizerAppln','MineralFertAppMethod_2_Broadcasting','MineralFertAppMethod_2_RootApplication',
-          'MineralFertAppMethod_2_SoilApplied','Harv_method_machine','Threshing_method_machine']]
+          'MineralFertAppMethod_2_SoilApplied','Harv_method_machine','Threshing_method_machine',
+          'Days_bw_Nurs_SowTransp_ModeDiff_Imputed','Days_bw_Nurs_Harv_ModeDiff_Imputed',
+          'Days_bw_Nurs_Till_ModeDiff_Imputed','Days_bw_Till_SowTransp_ModeDiff',
+          'Days_bw_Till_Harv_ModeDiff','Days_bw_SowTransp_Harv_ModeDiff',
+          'Days_bw_Harv_Thresh_ModeDiff','HarvestDate_ModeDiff','ThreshingDate_ModeDiff',
+          'NursingDate_ModeDiff_Imputed','TillageDate_ModeDiff','SowTransplantDate_ModeDiff']]
+
+  # Run k-means clustering
+  var_name = 'crop_id'
+  k_range = range(2,6)
+  cdf_results = cdf.copy()
+  run_kmeans(k_range, cdf, cdf_results, var_name)
+
+  # Add results to data
+  data = pd.get_dummies(cdf_results.iloc[:,-k_range[-2]:], columns = list(cdf_results.iloc[:,-k_range[-2]:].columns), drop_first=True)
+  df = pd.concat([df, data], axis=1)
+
+  return df
 
 
+def get_kmeans_important(df):
+  # Calculate k-means clusters for most important variables
+  cdf = df[['2appDaysUrea_Imputed','TpIrrigationCost_Imputed_per_Acre','TillageDate_ModeDiff','2appDaysUrea_Imputed','PC10','PC4',
+            'TpIrrigationHours_Imputed_per_Acre','2appDaysUrea_Imputed_MeanDiff','TpIrrigationHours_Imputed_per_Acre','PC6',
+            'Ganaura_capped','PC15','PCropSolidOrgFertAppMethod_Broadcasting','TpIrrigationCost_Imputed_per_Acre_capped',
+            '2appDaysUrea_Imputed_MeanDiff','Days_bw_SowTransp_Harv','Num_TopDressFert','MineralFertAppMethod_1_SoilApplied',
+            'CropOrgFYM_per_Acre','CropTillageDepth','PC9','Ganaura','SowTransplantDate_ModeDiff','Num_NursDetFactor',
+            'CropbasalFerts_SSP_True','Num_TransDetFactor','1appDaysUrea_Imputed','HarvestDate_ModeDiff','PC17',
+            'Days_bw_Nurs_SowTransp_ModeDiff_Imputed']]
 
-def run_spectral(k_range, input_df, output_df):
-  for k in k_range:
-    spectral = SpectralClustering(n_clusters=k, assign_labels='discretize', random_state=0, n_init=200).fit(input_df)
-    colname = 'k' + str(k) + "label"
-    col_list.append(colname)
-    output_df[colname] = spectral.labels_
+  # Run k-means clustering
+  var_name = 'top_shapley'
+  k_range = range(2,6)
+  cdf_results = cdf.copy()
+  run_kmeans(k_range, cdf, cdf_results, var_name)
 
+  # Add results to data
+  data = pd.get_dummies(cdf_results.iloc[:,-k_range[-2]:], columns = list(cdf_results.iloc[:,-k_range[-2]:].columns), drop_first=True)
+  df = pd.concat([df, data], axis=1)
 
-# In[ ]:
-
-
-col_list = []
-k_range = range(2,6)
-cdf_results = cdf.copy()
-
-run_spectral(k_range, cdf, cdf_results)
-
-
-
-
-def make_clusters(df):
-  # Create clusters for 
-  cdf_results["k2label"] = cdf_results["k2label"].replace({0:"A", 1:"B"})
-  cdf_results["k3label"] = cdf_results["k3label"].replace({0:"A", 1:"B", 2:"C"})
-  cdf_results["k4label"] = cdf_results["k4label"].replace({0:"A", 1:"B", 2:"C", 3:"D"})
-  cdf_results["k5label"] = cdf_results["k5label"].replace({0:"A", 2:"B", 1:"C", 3:"D", 4:"E"})
-
-
-# In[ ]:
-
-
-cdf_results.loc[cdf_results["k5label"]=="A"].k2label.value_counts()
-
-
-# In[ ]:
-
-
-# MERGING CLUSTER LABELS BACK WITH ORIGINAL DF
-
-tempo = cdf_results[["k2label","k3label","k4label","k5label"]]
-df2 = pd.concat([df,tempo], axis=1)
-tempo.shape, df.shape, df2.shape
-
-
-# In[ ]:
-
-
-df2.loc[df2["k2label"]=="B"].CropTillageDepth.value_counts()
+  return df
 
 
 def get_clusters(df):
+  df = get_kmeans_all(df)
+  df = get_kmeans_crop(df)
+  df = get_kmeans_important(df)
 
-    return df
+  return df

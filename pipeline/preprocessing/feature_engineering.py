@@ -26,6 +26,9 @@ def handle_per_acre_outliers(df):
     df["TpIrrigationCost_Imputed_per_Acre_capped"] = df["TpIrrigationCost_Imputed_per_Acre"]
     df.loc[df["TpIrrigationCost_Imputed_per_Acre"]>5000, "TpIrrigationCost_Imputed_per_Acre_capped"] = 5000
 
+    # Create extreme value flags
+    #df["TransIrriCost_per_Acre_XValue"] = df["TpIrrigationCost_Imputed_per_Acre_capped"] != df["TpIrrigationCost_Imputed_per_Acre"]
+
     return df
 
 
@@ -131,25 +134,13 @@ def get_months(df):
 
 def impute_nursing(df):
     # Create imputation columns
-    df["Days_bw_Nurs_SowTransp_Imputed"] = df["Days_bw_Nurs_SowTransp"]
-    df["Days_bw_Nurs_Harv_Imputed"] = df["Days_bw_Nurs_Harv"]
-    df["Days_bw_Nurs_Till_Imputed"] = df["Days_bw_Nurs_Till"]
-    df["NursingDate_ModeDiff_Imputed"] = df["NursingDate_ModeDiff"]
-    df["Days_bw_Nurs_SowTransp_ModeDiff_Imputed"] = df["Days_bw_Nurs_SowTransp_ModeDiff"]
-    df["Days_bw_Nurs_Harv_ModeDiff_Imputed"] = df["Days_bw_Nurs_Harv_ModeDiff"]
-    df["Days_bw_Nurs_Till_ModeDiff_Imputed"] = df["Days_bw_Nurs_Till_ModeDiff"]
+    columns_to_impute = ["Days_bw_Nurs_SowTransp", "Days_bw_Nurs_Harv", "Days_bw_Nurs_Till", "NursingDate_ModeDiff",
+                         "Days_bw_Nurs_SowTransp_ModeDiff", "Days_bw_Nurs_Harv_ModeDiff", "Days_bw_Nurs_Till_ModeDiff"]
 
-    # Impute missing integers values for nursing-related variables
-    df.loc[df["Days_bw_Nurs_SowTransp_Imputed"].isnull()==True, "Days_bw_Nurs_SowTransp_Imputed"] = df["Days_bw_Nurs_SowTransp_Imputed"].median()
-    df.loc[df["Days_bw_Nurs_Harv_Imputed"].isnull()==True, "Days_bw_Nurs_Harv_Imputed"] = df["Days_bw_Nurs_Harv_Imputed"].median()
-    df.loc[df["Days_bw_Nurs_Till_Imputed"].isnull()==True, "Days_bw_Nurs_Till_Imputed"] = df["Days_bw_Nurs_Till_Imputed"].median()
-    df.loc[df["NursingDate_ModeDiff_Imputed"].isnull()==True, "NursingDate_ModeDiff_Imputed"] = df["NursingDate_ModeDiff_Imputed"].median()
-    df.loc[df["Days_bw_Nurs_SowTransp_ModeDiff_Imputed"].isnull()==True,
-           "Days_bw_Nurs_SowTransp_ModeDiff_Imputed"] = df["Days_bw_Nurs_SowTransp_ModeDiff_Imputed"].median()
-    df.loc[df["Days_bw_Nurs_Harv_ModeDiff_Imputed"].isnull()==True,
-           "Days_bw_Nurs_Harv_ModeDiff_Imputed"] = df["Days_bw_Nurs_Harv_ModeDiff_Imputed"].median()
-    df.loc[df["Days_bw_Nurs_Till_ModeDiff_Imputed"].isnull()==True,
-              "Days_bw_Nurs_Till_ModeDiff_Imputed"] = df["Days_bw_Nurs_Till_ModeDiff_Imputed"].median()
+    # Create imputation columns and impute missing integer values
+    for col in columns_to_impute:
+        df[f"{col}_Imputed"] = df[col]
+        df.loc[df[f"{col}_Imputed"].isnull(), f"{col}_Imputed"] = df[f"{col}_Imputed"].median()
 
     return df
 
