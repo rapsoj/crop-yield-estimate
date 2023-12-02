@@ -1,3 +1,5 @@
+#### PREPARE WORKSPACE ####
+
 # Import system libraries
 import os
 import sys
