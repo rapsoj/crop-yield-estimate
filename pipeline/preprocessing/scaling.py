@@ -66,7 +66,10 @@ def scale_standard(df):
 					    '2appDaysUrea_Imputed_MeanDiff','1appDaysUrea_Imputed','2appDaysUrea_Imputed','TpIrrigationHours_Imputed',
 					    'TpIrrigationCost_Imputed_per_Acre','TransIrriCost_per_Acre_capped','TpIrrigationCost_Imputed_per_Acre_capped',
 					    'Days_bw_Nurs_SowTransp_Imputed','Days_bw_Nurs_Harv_Imputed','Days_bw_Nurs_Till_Imputed','NursingDate_ModeDiff_Imputed',
-					    'Days_bw_Nurs_SowTransp_ModeDiff_Imputed','Days_bw_Nurs_Harv_ModeDiff_Imputed','Days_bw_Nurs_Till_ModeDiff_Imputed']
+					    'Days_bw_Nurs_SowTransp_ModeDiff_Imputed','Days_bw_Nurs_Harv_ModeDiff_Imputed','Days_bw_Nurs_Till_ModeDiff_Imputed',
+					    'TransplantingIrrigationHours_per_Acre_capped','TpIrrigationHours_Imputed_per_Acre_capped','Ganaura_per_Acre_capped',
+					    'CropOrgFYM_per_Acre_capped','BasalDAP_per_Acre_capped','BasalUrea_per_Acre_capped','1tdUrea_per_Acre_capped',
+					    '2tdUrea_per_Acre_capped','Harv_hand_rent_per_Acre_capped']
 	df[columns_to_scale] = scaler.fit_transform(df[columns_to_scale])
 
 	return df
