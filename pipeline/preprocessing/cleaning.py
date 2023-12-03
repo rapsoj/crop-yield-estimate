@@ -34,19 +34,6 @@ def adjust_datetime_columns(df):
 
   return df
 
-def create_month_columns(df):
-  df["CropTillageMonth"] = df["CropTillageDate"].dt.month
-  df["RcNursEstMonth"] = df["RcNursEstDate"].dt.month
-  df["SeedingSowingTransplantingMonth"] = df["SeedingSowingTransplanting"].dt.month
-  df["HarvMonth"] = df["Harv_date"].dt.month
-  df["ThreshingMonth"] = df["Threshing_date"].dt.month
-
-  return df
-
-def remove_date_columns(df):
-  df = df.drop(columns=["CropTillageDate", "RcNursEstDate", "SeedingSowingTransplanting", "Harv_date", "Threshing_date"])
-  return df
-
 
 def fix_errors(df):
   # Fix district typo
@@ -124,11 +111,17 @@ def replace_binary_nan(df):
 
   return df
 
+
 def replace_numeric_nan(df):
+  # Flag missing value for "Harv_hand_rent"
+  df['Harv_hand_rent_NaN'] = df['Harv_hand_rent'].isna()
+  # Flag instances where fertiliser was marked as used but the amount was zero
+  df['BasalUrea_Inconsistency'] = df['CropbasalFerts_Urea'] & df['BasalUrea'].isna()
   # Replace NaN with 0 for columns where it makes sense
   fillna0 = ["2tdUrea","1tdUrea","Harv_hand_rent","Ganaura","CropOrgFYM","BasalDAP","BasalUrea"]
 
   for col in fillna0:
+    # Fill missing values
     df[col] = df[col].fillna(0)
 
   return df
@@ -209,8 +202,6 @@ def clean_data(train_path, test_path):
   df = fix_duplicate(df)
   df = adjust_datetime_columns(df)
   df = fix_errors(df)
-  #df = create_month_columns(df)
-  #df = remove_date_columns(df)
   df = parse_categorical(df)
   df = replace_binary_nan(df)
   df = replace_numeric_nan(df)
