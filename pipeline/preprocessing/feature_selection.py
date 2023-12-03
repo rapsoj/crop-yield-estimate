@@ -5,12 +5,19 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
+def regroup_test_only_col(df):
+  # Regroup column that only appears in the test set
+  df['MineralFertAppMethod_1_SoilApplied'] = np.where(df['MineralFertAppMethod_1_Spray'], True, df['MineralFertAppMethod_1_SoilApplied'])
+
+  return df
+
+
 def drop_unusable_vars(df):
   df = df.drop(columns = ['Residuals','ID','LandPreparationMethod','CropTillageDate','RcNursEstDate','SeedingSowingTransplanting',
                           'NursDetFactor','TransDetFactor','OrgFertilizers','CropbasalFerts','FirstTopDressFert','Harv_date','Threshing_date',
                           'LandPrepMethod_Other','CropbasalFerts_MoP','FirstTopDressFert_NPKS','FirstTopDressFert_SSP',
                           'FirstTopDressFert_Other','OrgFertilizers_Pranamrit','OrgFertilizers_Jeevamrit','OrgFertilizers_PoultryManure',
-                          'CropTillageSeason','NursingSeason','SowTransplantSeason','HarvestSeason'])
+                          'CropTillageSeason','NursingSeason','SowTransplantSeason','HarvestSeason','MineralFertAppMethod_1_Spray'])
 
   return df
 
@@ -36,6 +43,7 @@ def drop_test_only_vars(df):
 
 
 def select_features(df):
+    df = regroup_test_only_col(df)
     df = drop_unusable_vars(df)
     df = drop_low_values(df)
     df = drop_test_only_vars(df)
