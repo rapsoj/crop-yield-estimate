@@ -19,15 +19,21 @@ def get_scaled_per_acre(df):
 
 
 def handle_per_acre_outliers(df):
-    # Replace extreme outliers in TransIrriCost_per_Acre with the next highest value and keep original column
-    df["TransIrriCost_per_Acre_capped"] = df["TransIrriCost_per_Acre"]
-    df.loc[df["TransIrriCost_per_Acre"]>5000, "TransIrriCost_per_Acre_capped"] = 5000
-    # Replace extreme outliers in TransIrriCost_per_Acre with the next highest value and keep original column
-    df["TpIrrigationCost_Imputed_per_Acre_capped"] = df["TpIrrigationCost_Imputed_per_Acre"]
-    df.loc[df["TpIrrigationCost_Imputed_per_Acre"]>5000, "TpIrrigationCost_Imputed_per_Acre_capped"] = 5000
+    # Select columns to be capped
+    cols = ["TransplantingIrrigationHours_per_Acre","TpIrrigationHours_Imputed_per_Acre","TpIrrigationCost_Imputed_per_Acre",
+            "TransIrriCost_per_Acre","Ganaura_per_Acre","CropOrgFYM_per_Acre","BasalDAP_per_Acre","BasalUrea_per_Acre",
+            "1tdUrea_per_Acre","2tdUrea_per_Acre","Harv_hand_rent_per_Acre"]
 
-    # Create extreme value flags
-    #df["TransIrriCost_per_Acre_XValue"] = df["TpIrrigationCost_Imputed_per_Acre_capped"] != df["TpIrrigationCost_Imputed_per_Acre"]
+    for col in cols:
+        # Replace extreme outliers with the next highest value and keep original column
+        label = col + "_capped"
+        df[label] = df[col]
+        cap_value = np.percentile(df[col].dropna(), 95)
+        df.loc[df[col]>cap_value, label] = cap_value
+
+        # Create extreme value flags
+        label = col + "_XValue"
+        df[label] = df[col + "_capped"] != df[col]
 
     return df
 

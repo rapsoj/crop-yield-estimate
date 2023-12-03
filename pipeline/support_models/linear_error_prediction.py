@@ -44,46 +44,38 @@ df_train = df[df['Yield'].isna() == False]
 df_test = df[df['Yield'].isna() == True]
 
 
-#### TRAIN ORIGINAL MODEL ####
+#### CALCULATE LINEAR RELATIONSHIP BETWEEN ACRE AND YIELD ####
+
+# Perform linear regression
+slope, intercept = np.polyfit(df_train['Acre'], df_train['New_Yield'], 1)
+
+# Calculate difference from line
+predicted_y = slope * df_train['Acre'] + intercept
+residuals = df_train['New_Yield'] - predicted_y
+df_train['Residuals'] = residuals
+
+
+#### TRAIN MODEL TO PREDICT LINEAR ERROR ####
 
 # Split data
-outcome_cols = ["Yield","Yield_per_Acre","New_Yield","New_Yield_per_Acre"]
-X, y = df_train.drop(outcome_cols, axis=1), df_train["New_Yield_per_Acre"]
+outcome_cols = ["Yield","Yield_per_Acre","New_Yield","New_Yield_per_Acre","Residuals"]
+X, y = df_train.drop(outcome_cols, axis=1), df_train["Residuals"]
 
 # Instantiate an XGBoost regressor model
-best_params = {'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 100, 'alpha': 0, 'lambda': 0}
+best_params = {'alpha': 1, 'lambda': 0, 'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 150}
 xg_reg = xgb.XGBRegressor(objective ='reg:squarederror', colsample_bytree = 0.3, **best_params)
 
 # Train the XGBoost model
 xg_reg.fit(X, y)
 
 
-#### CALCULATE ERRORS ####
+#### RECALCULATE PREDICTION USING LINEAR MODEL AND PREDICTED LINEAR ERROR ####
 
 # Make predictions
-y_pred = xg_reg.predict(X)
+y_pred = xg_reg.predict(df[list(X.columns)])
 
-# Create new dataframe to store errors
-data = X
-data['Error'] = y - y_pred
-data['Error_Scaled'] = (data['Error'] - data['Error'].mean()) /  data['Error'].std()
-
-
-#### TRAIN ERROR PREDICTION MODEL ####
-
-# Splitting the data into train and test sets
-outcome_cols = ["Yield","Yield_per_Acre","New_Yield","New_Yield_per_Acre"]
-X_error, y_error = df_train.drop(outcome_cols, axis=1), data["Error_Scaled"]
-
-# Defining the XGBoost regressor
-xgb_model = xgb.XGBRegressor(objective='reg:squarederror', random_state=42, colsample_bytree=0.3, **best_params)
-
-# Training the XGBoost regressor
-xgb_model.fit(X_error, y_error)
-
-# Making predictions on the test set
-y_pred_final = xgb_model.predict(df[list(X_error.columns)])
-df["Error_Prediction"] = y_pred_final
+# Calculate error when converting back into Per_Acre values
+df['Linear_Yield_Prediction'] = slope * df['Acre'] + intercept + y_pred
 
 # Export predictions
-df[["Error_Prediction"]].to_csv('pipeline/support_models/Error_Prediction.csv', index=False)
+df[["Linear_Yield_Prediction"]].to_csv('pipeline/support_models/Linear_Yield_Prediction.csv', index=False)

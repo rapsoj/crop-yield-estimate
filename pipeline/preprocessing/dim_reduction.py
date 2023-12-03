@@ -13,7 +13,8 @@ def reduce_dim(df):
     missing = ['SeedlingsPerPit','TransplantingIrrigationHours','TransIrriCost','StandingWater','1appDaysUrea',
                '2appDaysUrea','TransplantingIrrigationHours_per_Acre','TransIrriCost_per_Acre','TransIrriCost_per_Acre_capped',
                'Days_bw_Nurs_SowTransp','Days_bw_Nurs_Harv','Days_bw_Nurs_Till','NursingDate_ModeDiff',
-               'Days_bw_Nurs_SowTransp_ModeDiff','Days_bw_Nurs_Till_ModeDiff','Days_bw_Nurs_Harv_ModeDiff','2appDaysUrea_MeanDiff']
+               'Days_bw_Nurs_SowTransp_ModeDiff','Days_bw_Nurs_Till_ModeDiff','Days_bw_Nurs_Harv_ModeDiff','2appDaysUrea_MeanDiff',
+               'TransplantingIrrigationHours_per_Acre_capped']
     X = df.drop(outcome_cols + missing, axis=1)
 
     # Initialize PCA with the number of components to retain
