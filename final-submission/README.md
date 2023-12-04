@@ -71,10 +71,10 @@ Overall, we only spent around 5% of the time building the actual model (and only
 - 'TpIrrigationCost_Imputed_per_Acre': raw value was divided per Acre
 - 'Days_bw_SowTransp_Harv': Number of days between Sowing/Transplanting and Harvesting
 - 'Days_bw_Harv_Thresh': Number of days between Harvesting and Threshing
-- 'NursingDate_ModeDiff':
-- 'TillageDate_ModeDiff':
-- 'HarvestDate_ModeDiff':
-- 'ThreshingDate_ModeDiff':
+- 'NursingDate_ModeDiff': Difference in days between the mode nursing date and the row nursing date
+- 'TillageDate_ModeDiff': Difference in days between the mode tillage date and the row tillage date
+- 'HarvestDate_ModeDiff': Difference in days between the mode harvest date and the row harvest date
+- 'ThreshingDate_ModeDiff': Difference in days between the mode threshing date and the row threshing date
 - 'Num_LandPrepMethod': Number of LandPrepMethod selected (LandPrepMethod was a question for which farmers could select multiple items)
 - 'Num_CropbasalFerts': Number of CropbasalFerts selected (CropbasalFerts was a question for which farmers could select multiple items)
 - 'Num_TopDressFert': Number of TopDressFert selected (TopDressFert was a question for which farmers could select multiple items)
