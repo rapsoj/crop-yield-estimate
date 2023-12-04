@@ -80,11 +80,11 @@ Overall, we only spent around 5% of the time building the actual model (and only
 - 'Num_TopDressFert': Number of TopDressFert selected (TopDressFert was a question for which farmers could select multiple items)
 - 'Latitude': added for each block
 - 'Longitude': added for each block
-- 'CropEstMethod_LineSowingAfterTillage':
-- 'Threshing_method_machine': Binary variable, where 1 means the threshing was done with a machine (while 0 is by hand)
-- 'Stubble_use_plowed_in_soil': Binary variable, where 1 means the practice used is plowed in soil (while 0 is burned)
-- 'LandPrepMethod_FourWheelTracRotavator_True': Binary variable, where True means a four wheel tractor rotavator was used in land preparation
-- 'LandPrepMethod_WetTillagePuddling_True': Binary variable, where True means wet tillage puddling was used in land preparation
+- 'CropEstMethod_LineSowingAfterTillage': Whether line sowing after tillage was used as method of transplantation
+- 'Threshing_method_machine': Whether threshing was done with a machine (as opposed to by hand)
+- 'Stubble_use_plowed_in_soil': Whether plowing in soil was used for stubble (as opposted to burning)
+- 'LandPrepMethod_FourWheelTracRotavator_True': Whether a four wheel tractor rotavator was used in land preparation
+- 'LandPrepMethod_WetTillagePuddling_True': Whether wet tillage puddling was used in land preparation
 - 'NursDetFactor_PreMonsoonShowers_True': 
 - 'NursDetFactor_LabourAvailability_True':
 - 'FirstTopDressFert_DAP_True':
