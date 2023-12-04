@@ -13,15 +13,14 @@ Thank you for your time in reviewing our model, which we call "XYieldBoost".
 <br />
 
 **Folder structure**:
-- the “submission.ipynb” file is the only notebook that needs to be run. It includes both preprocessing and modeling.
 - the “data” folder includes the datasets provided for this competition
-- the “pipeline” folder includes the preprocessing .py files (cleaning.py, feature_engineering.py, scaling.py, feature_selection.py, dim_reduction.py and clustering.py)
+- the “pipeline” folder includes the "submission.ipynb" notebook, as well as the preprocessing .py files (cleaning.py, feature_engineering.py, scaling.py, feature_selection.py, dim_reduction.py and clustering.py)
 - the “submission.csv” file is output by the model and includes IDs and Yield predictions for the test set.
 
 <br />
 
 **How to run**:
-The only thing to do is running the submission.ipynb notebook, after replacing the path files in the first cell:
+The only thing to do is running the submission.ipynb notebook in the pipeline folder, after replacing the path files in the first cell:
 - os.chdir('/Users/yourname/Downloads/crop-yield-estimate-OxfordGroup/')
 - sys.path.insert(0, '/Users/yourname/Downloads/crop-yield-estimate-OxfordGroup/pipeline')
 
