@@ -85,13 +85,13 @@ Overall, we only spent around 5% of the time building the actual model (and only
 - 'Stubble_use_plowed_in_soil': Whether plowing in soil was used for stubble (as opposted to burning)
 - 'LandPrepMethod_FourWheelTracRotavator_True': Whether a four wheel tractor rotavator was used in land preparation
 - 'LandPrepMethod_WetTillagePuddling_True': Whether wet tillage puddling was used in land preparation
-- 'NursDetFactor_PreMonsoonShowers_True': 
-- 'NursDetFactor_LabourAvailability_True':
-- 'FirstTopDressFert_DAP_True':
-- 'HarvestMonth_November':
-- 'ThreshingMonth_January':
-- 'Block_Chehrakala':
-- 'PCropSolidOrgFertAppMethod_Broadcasting':
+- 'NursDetFactor_PreMonsoonShowers_True': Whether "Pre Monsoon Showers" was selected as a reason for choosing the Nursing Date
+- 'NursDetFactor_LabourAvailability_True': Whether "Labour Availability" was selected as a reason for choosing the Nursing Date
+- 'FirstTopDressFert_DAP_True': Whether DAP was used for the second dose
+- 'HarvestMonth_November': Whether harvesting was done in November
+- 'ThreshingMonth_January': Whether threshing was done in January
+- 'Block_Chehrakala': Whether the Block is Chehrakala
+- 'PCropSolidOrgFertAppMethod_Broadcasting': Whether
 - 'PCropSolidOrgFertAppMethod_SoilApplied':
 - 'MineralFertAppMethod_1_Broadcasting':
 - 'MineralFertAppMethod_1_SoilApplied': method of fertilizer application for the 1st application
