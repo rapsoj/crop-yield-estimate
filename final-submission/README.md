@@ -48,38 +48,38 @@ The only thing to do is running the submission.ipynb notebook, after replacing t
 
 **More about our approach**:
 We used an ensemble method that took the average of three predictions made using tree-based methods, specifically: XGBoost, CatBoost, and LightGBM. All three are tree-based methods, which are efficient for handling tabular data with non-linear relationships. We also used cross validation to train and test our model in order to reduce overfitting.
-However, the most important part of our analysis lies at the data cleaning stage. We spent 95% of our time on data cleaning and feature engineering, which involved understanding the data and reading literature on which variables affect crop yield in Bihar, and India more generally. As a result, we learned about different agircultural traditions in North Bihar vs. South Bihar (which is more agriculturally productive and employs the Ahar Pyne agricultural system, leveraging channels and retention ponds to manage water resources and adapt to Bihar’s unpredictable weather). We also learned about the importance of the monsoon in Bihar agricultural cycles. Kharif crops, such as rice, are sown during the monsoon season from June to September and are watered by monsoon rainfall. These crops do well with high rain in Winter. We also learned about nitrogen cycles, fertilizer application methods, and irrigation techniques. This background research allowed us to realize that the region in which the crops was grown was important (North vs. South Bihar), as were the various dates on which key agricultural steps were taken and fertilisation choices. We engineered our data to reflect this, and selected the top variables using recursive feature elimination with cross validation.
+However, the most important part of our analysis lies at the data exploration and data cleaning stages. We spent 95% of our time on data exploration, cleaning and feature engineering, which involved understanding the data and reading literature on which variables affect crop yield in Bihar, and India more generally. As a result, we learned about different agircultural traditions in North Bihar vs. South Bihar (which is more agriculturally productive and employs the Ahar Pyne agricultural system, leveraging channels and retention ponds to manage water resources and adapt to Bihar’s unpredictable weather). We also learned about the importance of the monsoon in Bihar agricultural cycles. Kharif crops, such as rice, are sown during the monsoon season from June to September and are watered by monsoon rainfall. These crops do well with high rain in Winter. We also learned about nitrogen cycles, fertilizer application methods, and irrigation techniques. This background research allowed us to realize that the region in which the crops was grown was important (North vs. South Bihar), as were the various dates on which key agricultural steps were taken and fertilisation choices. We engineered our data to reflect this, and selected the top variables using recursive feature elimination with cross validation.
 Overall, we only spent around 5% of the time building the actual model (and only started fine-tuning the model two days before the deadline). The trick was to understand the data and avoid overfitting to the public test set.
 
 **List of training features** (total number: 48):
-- 'SeedlingsPerPit': was capped
-- 'Ganaura': was capped
-- 'CropOrgFYM':
-- 'NoFertilizerAppln':
-- 'BasalDAP':
-- 'BasalUrea':
-- '2appDaysUrea':
-- 'Harv_hand_rent':
-- 'Residue_length':
-- 'TransplantingIrrigationHours_per_Acre':
-- 'TransIrriCost_per_Acre':
-- 'CropOrgFYM_per_Acre':
-- 'BasalDAP_per_Acre':
-- 'BasalUrea_per_Acre':
-- '1tdUrea_per_Acre':
-- 'Harv_hand_rent_per_Acre':
-- 'TpIrrigationCost_Imputed_per_Acre':
-- 'Days_bw_SowTransp_Harv':
-- 'Days_bw_Harv_Thresh':
+- 'SeedlingsPerPit'
+- 'Ganaura'
+- 'CropOrgFYM'
+- 'NoFertilizerAppln'
+- 'BasalDAP'
+- 'BasalUrea'
+- '2appDaysUrea'
+- 'Harv_hand_rent'
+- 'Residue_length'
+- 'TransplantingIrrigationHours_per_Acre': raw value was divided per Acre
+- 'TransIrriCost_per_Acre': raw value was divided per Acre
+- 'CropOrgFYM_per_Acre': raw value was divided per Acre
+- 'BasalDAP_per_Acre': raw value was divided per Acre
+- 'BasalUrea_per_Acre': raw value was divided per Acre
+- '1tdUrea_per_Acre': raw value was divided per Acre
+- 'Harv_hand_rent_per_Acre': raw value was divided per Acre
+- 'TpIrrigationCost_Imputed_per_Acre': raw value was divided per Acre
+- 'Days_bw_SowTransp_Harv': Number of days between Sowing/Transplanting and Harvesting
+- 'Days_bw_Harv_Thresh': Number of days between Harvesting and Threshing
 - 'NursingDate_ModeDiff':
 - 'TillageDate_ModeDiff':
 - 'HarvestDate_ModeDiff':
 - 'ThreshingDate_ModeDiff':
-- 'Num_LandPrepMethod':
-- 'Num_CropbasalFerts':
-- 'Num_TopDressFert':
-- 'Latitude': added feature for each block
-- 'Longitude': added feature for each block
+- 'Num_LandPrepMethod': Number of LandPrepMethod selected
+- 'Num_CropbasalFerts': Number of CropbasalFerts selected
+- 'Num_TopDressFert': Number of TopDressFert selected
+- 'Latitude': added for each block
+- 'Longitude': added for each block
 - 'CropEstMethod_LineSowingAfterTillage':
 - 'Threshing_method_machine':
 - 'Stubble_use_plowed_in_soil':
