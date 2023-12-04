@@ -21,7 +21,7 @@ We are the Oxford Effective International Development Group. Thank you for your 
 - the “data” folder includes the datasets provided for this competition
 - the “pipeline” folder includes the preprocessing .py files (cleaning.py, feature_engineering.py, scaling.py, feature_selection.py, dim_reduction.py and clustering.py)
 - the “submission.csv” file is output by the model and includes IDs and Yield predictions for the test set.
-    - note: due to the nature of the models we used (XGBoost, LGM and CATBOOST), the predictions will slightly vary with every run. Unfortunately, setting a seed does not allow for exact reproducibility, but the RMSE should be fairly stable. 
+    - note: due to the nature of the models we used (XGBoost, LightGBM and CatBoost), the predictions will slightly vary with every run. Unfortunately, setting a seed does not allow for exact reproducibility, but the RMSE should be fairly stable. 
 
 
 
@@ -34,7 +34,7 @@ The only thing to do is running the submission.ipynb notebook, after replacing t
 
 
 
-**Description of our submission**: 
+**Description of our submission:**: 
 1) **cleaning** (obtaining months from datetime columns, fixing suspected entry errors both for predictors and Yield, parsing messy categorical variables, imputation for missing values, and processing outliers by capping values) 
 2) **feature engineering** (scaling values per Acre where relevant, second pass at capping outliers, adding binary variables marking missing values where meaningful, adding variables indicating the number of days between events, mode encoding & mean encoding, merging some months when low frequency, adding season variables, encoding how many fertilizers were reported to be used, and adding latitude, longitude & elevation for blocks)
 3) **scaling** (one-hot encoding for categorical variables, min-max scaling for discrete variables, and standard scaling for continuous variables)
@@ -46,7 +46,11 @@ The only thing to do is running the submission.ipynb notebook, after replacing t
     - note: we use per_Acre variables and our model predicts Yield_per_Acre. As post-processing, we revert back to raw Yield by multiplying the prediction by the Acre value
 10) **predictions** on the test set and exportation
 
-
+**More about our approach**:
+We used an ensemble method that took the average of three predictions made using tree-based methods, specifically: XGBoost, CatBoost, and LightGBM. All three are tree-based methods, which are efficient for handling tabular data with non-linear relationships. We also used cross validation to train and test our model in order to reduce overfitting.
+However, the most important part of our analysis lies at the data cleaning stage. We probably spent 95% of our time on data cleaning and feature engineering, which involved understanding the variables and reading literature on which variables affect crop yield in Bihar, India. As a result, we learned about different agircultural traditions in North Bihar vs. South Bihar (which is more agriculturally productive and employs the Ahar Pyne agricultural system, leveraging channels and retention ponds to manage water resources and adapt to Bihar’s unpredictable weather). We also learned about the importance of the monsoon in Bihar agricultural cycles. Kharif crops, such as rice, are sown during the monsoon season from June to September and are watered by monsoon rainfall. These crops do well with high rain in Winter. Rabi crops, such as wheat, are sown in mid-November – preferably after the monsoon rains are over – and are watered by percolated rainfall. These crops are spoiled by high rain in winter. We also learned about nitrogen cycles, fertilizer application methods, and irrigation techniques.
+With all of this information, we had a pretty good idea that the region in which the crops was grown was important (North vs. South Bihar), as were the various dates on which key agricultural steps were taken, as were the fertilisation choices. We engineered our data to reflect this, and selected the top variables using recursive feature elimination with cross validation.
+Overall, we only spent around 5% of the time building the actual model (and only started fine-tuning the model two days before the deadline). The trick is to understand the data and not overfit to the public test set.
 
 **List of training features** (total number: 48):
 - 'SeedlingsPerPit': was capped
