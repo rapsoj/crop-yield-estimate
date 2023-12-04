@@ -22,7 +22,7 @@ We are the Oxford Effective International Development Group. Thank you for your 
 - the “pipeline” folder includes the preprocessing .py files (cleaning.py, feature_engineering.py, scaling.py, feature_selection.py, dim_reduction.py and clustering.py)
 - the “submission.csv” file is output by the model and includes IDs and Yield predictions for the test set.
 
-
+<br />
 
 **How to run**:
 The only thing to do is running the submission.ipynb notebook, after replacing the path files in the first cell:
@@ -32,7 +32,7 @@ The only thing to do is running the submission.ipynb notebook, after replacing t
 **The expected runtime is around 3 minutes** (for a 2020 laptop with 8Gb RAM, Processor: AMD Ryzen 5 3500u, Graphic card: AMD Radeon vega 8 graphics)
 - note: due to the nature of the models we used (XGBoost, LightGBM and CatBoost), the predictions will slightly vary with every run. Unfortunately, setting a seed does not allow for exact reproducibility, but the RMSE should be fairly stable. 
 
-
+<br />
 
 **Description of our submission:**: 
 1) **cleaning** (obtaining months from datetime columns, fixing suspected entry errors both for predictors and Yield, parsing messy categorical variables, imputation for missing values, and processing outliers by capping values) 
@@ -46,12 +46,16 @@ The only thing to do is running the submission.ipynb notebook, after replacing t
     - note: we use per_Acre variables where relevant, and our model predicts Yield_per_Acre. As post-processing, we revert back to raw Yield by multiplying the prediction by the Acre value. 
 10) **predictions** on the test set and exportation
 
+<br />
+
 **More about our approach**:
 - We used an ensemble method that took the average of three predictions made using tree-based methods, specifically: XGBoost, CatBoost, and LightGBM. All three are tree-based methods, which are efficient for handling tabular data with non-linear relationships. We also used cross validation to train and test our model in order to reduce overfitting.
 - However, the most important part of our analysis lies at the data exploration and data cleaning stages. We spent 95% of our time on data exploration, cleaning and feature engineering, which involved understanding the data and reading literature on which variables affect crop yield in Bihar, and India more generally.
 - As a result, we learned about different agircultural traditions in North Bihar vs. South Bihar (which is more agriculturally productive and employs the Ahar Pyne agricultural system, leveraging channels and retention ponds to manage water resources and adapt to Bihar’s unpredictable weather). We also learned about the importance of the monsoon in Bihar agricultural cycles. Kharif crops, such as rice, are sown during the monsoon season from June to September and are watered by monsoon rainfall. These crops do well with high rain in Winter. We also learned about nitrogen cycles, fertilizer application methods, and irrigation techniques.
 - This background research allowed us to realize that the region in which the crops was grown was important (North vs. South Bihar), as were the various dates on which key agricultural steps were taken and fertilisation choices. We engineered our data to reflect this, and selected the top variables using recursive feature elimination with cross validation.
 - Overall, we only spent around 5% of the time building the actual model (and only started fine-tuning the model two days before the deadline). The trick was to understand the data and avoid overfitting to the public test set.
+
+<br />
 
 **List of training features** (total number: 48):
 - 'SeedlingsPerPit'
