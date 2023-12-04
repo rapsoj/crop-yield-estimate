@@ -1,8 +1,3 @@
--- feature explanation
--- review structure and filenames
--- try running on another pc to make sure it runs smoothly
-
-
 **Hello!**
 
 We are Jessica, Shaw and Juliette, and we form the Oxford Effective International Development Group. 
