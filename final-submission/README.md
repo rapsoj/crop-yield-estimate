@@ -15,7 +15,7 @@ We are the Oxford Effective International Development Group. Thank you for your 
 - the “pipeline” folder includes the preprocessing .py files (cleaning.py, feature_engineering.py, scaling.py, feature_selection.py, dim_reduction.py and clustering.py)
 - the “submission.csv” file is output by the model and includes IDs and Yield predictions for the test set.
 
-&nbsp;
+
 **How to run**:
 The only thing to do is running the submission.ipynb notebook, after replacing the path files in the first cell:
 - os.chdir('/Users/yourname/Downloads/crop-yield-estimate-OxfordGroup/')
