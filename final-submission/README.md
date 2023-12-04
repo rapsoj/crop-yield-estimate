@@ -21,7 +21,7 @@ We are the Oxford Effective International Development Group. Thank you for your 
 - the “data” folder includes the datasets provided for this competition
 - the “pipeline” folder includes the preprocessing .py files (cleaning.py, feature_engineering.py, scaling.py, feature_selection.py, dim_reduction.py and clustering.py)
 - the “submission.csv” file is output by the model and includes IDs and Yield predictions for the test set.
-    - note: the predictions will vary with every run, due to the nature of XGBoost and related models. Unfortunately, setting a seed does not allow for every run
+    - note: due to the nature of the models we used (XGBoost, LGM and CATBOOST), the predictions will slightly vary with every run. Unfortunately, setting a seed does not allow for exact reproducibility, but the RMSE should be fairly stable. 
 
 
 
