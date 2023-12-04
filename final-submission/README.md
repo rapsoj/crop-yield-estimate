@@ -7,14 +7,14 @@
 
 We are the Oxford Effective International Development Group. Thank you for your time in reviewing our model.
 
-
+<br />
 
 **This Read Me file covers**:
 - submission folder structure
 - how to run and expected runtime
 - description of our process and training features
 
-
+<br />
 
 **Folder structure**:
 - the “submission.ipynb” file is the only notebook that needs to be run. It includes both preprocessing and modeling.
