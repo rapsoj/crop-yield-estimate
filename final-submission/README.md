@@ -47,7 +47,7 @@ The only thing to do is running the submission.ipynb notebook, after replacing t
 
 
 
-**List of training features** (and explanations where relevant) (total number: 48):
+**List of training features** (total number: 48):
 - 'SeedlingsPerPit': was capped
 - 'Ganaura': was capped
 - 'CropOrgFYM':
