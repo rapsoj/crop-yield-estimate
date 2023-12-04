@@ -20,12 +20,11 @@ Thank you for your time in reviewing our model, which we call "XYieldBoost".
 <br />
 
 **How to run**:
-1) Set up conda environment: in Terminal, run:
-    - cd /Users/yourname/Downloads/crop-yield-estimate-OxfordGroup
-    - conda env create -f environment.yml
-2) Run the submission.ipynb notebook in the pipeline folder, after replacing the path files in the first cell:
-    - os.chdir('/Users/yourname/Downloads/crop-yield-estimate-OxfordGroup/')
-    - sys.path.insert(0, '/Users/yourname/Downloads/crop-yield-estimate-OxfordGroup/pipeline')
+- This can easily be run on Google Colab:
+      - Import the entire folder in Google Drive
+      - Run the submission.ipynb notebook after replacing the path files in the first cell:
+2) Run the submission.ipynb notebook in the pipeline folder, after replacing the directly path in the first cell:
+  %cd '/content/gdrive/My Drive/crop-yield-estimate-OxfordGroup'
 
 **The expected runtime is around 3 minutes** (for a 2020 laptop with 8Gb RAM, Processor: AMD Ryzen 5 3500u, Graphic card: AMD Radeon vega 8 graphics)
 - note: due to the nature of the models we used (XGBoost, LightGBM and CatBoost), the predictions will slightly vary with every run. Unfortunately, setting a seed does not allow for exact reproducibility, but the RMSE should be fairly stable. 
