@@ -31,7 +31,7 @@ The only thing to do is running the submission.ipynb notebook, after replacing t
 - os.chdir('/Users/yourname/Downloads/crop-yield-estimate-OxfordGroup/')
 - sys.path.insert(0, '/Users/yourname/Downloads/crop-yield-estimate-OxfordGroup/pipeline')
 
-**The expected runtime is around XX minutes** (for a laptop with XXX config)
+**The expected runtime is around 3 minutes** (for a 2020 laptop with 8Gb RAM, Processor: AMD Ryzen 5 3500u, Graphic card: AMD Radeon vega 8 graphics)
 
 
 
@@ -42,8 +42,8 @@ The only thing to do is running the submission.ipynb notebook, after replacing t
 4) **initial feature selection** (dropping raw and very sparse variables)
 5) **dimensionality reduction** (PCA with 21 components)
 6) **clustering** (k-means for k ranging from 2 to 5, using different sets of features)
-7) **2nd feature selection** (top_cols), selecting only features with significant predictive power (this is based on Shapley values, as examined from our model using a train-test split on the training set)
-8) **modeling** using XGBoost, LightGBM and Cat… (?); training on the entire training dataset
+7) **2nd feature selection**: the final list of features (top_cols) was selected using Recursive Feature Elimination with CV on our basis XGBoost model.
+9) **modeling** using XGBoost, LightGBM and Cat… (?); training on the entire training dataset
     - note: we use per_Acre variables and our model predicts Yield_per_Acre. As post-processing, we revert back to raw Yield by multiplying the prediction by the Acre value
 10) **predictions** on the test set and exportation
 
