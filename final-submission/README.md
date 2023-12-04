@@ -20,6 +20,7 @@ Thank you for your time in reviewing our model, which we call "XYieldBoost".
 <br />
 
 **How to run**:
+Environment: conda environment.yml file
 The only thing to do is running the submission.ipynb notebook in the pipeline folder, after replacing the path files in the first cell:
 - os.chdir('/Users/yourname/Downloads/crop-yield-estimate-OxfordGroup/')
 - sys.path.insert(0, '/Users/yourname/Downloads/crop-yield-estimate-OxfordGroup/pipeline')
