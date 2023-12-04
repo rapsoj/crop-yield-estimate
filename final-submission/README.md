@@ -13,7 +13,6 @@ We are the Oxford Effective International Development Group. Thank you for your 
 
 **Folder structure**:
 - the “submission.ipynb” file is the only notebook that needs to be run. It includes both preprocessing and modeling.
-- the “shapley_model.ipynb contains our exploratory model, containing a train-test split on the training set and examining shapley values to select the best features in our final model. This notebook is provided as additional information, but does not need to be run for predictions. 
 - the “data” folder includes the datasets provided for this competition
 - the “pipeline” folder includes the preprocessing .py files (cleaning.py, feature_engineering.py, scaling.py, feature_selection.py, dim_reduction.py and clustering.py)
 - the “submission.csv” file is output by the model and includes IDs and Yield predictions for the test set.
@@ -36,7 +35,7 @@ The only thing to do is running the submission.ipynb notebook, after replacing t
 4) **initial feature selection** (dropping raw and very sparse variables)
 5) **dimensionality reduction** (PCA with 21 components)
 6) **clustering** (k-means for k ranging from 2 to 5, using different sets of features)
-7) **2nd feature selection** (top_cols), selecting only features with significant predictive power (this is based on Shapley values, as examined from our model using a train-test split on the training set. This model, along with Shapley values visualizations, can be found in the shapley_model.ipynb notebook)
+7) **2nd feature selection** (top_cols), selecting only features with significant predictive power (this is based on Shapley values, as examined from our model using a train-test split on the training set)
 8) **modeling** using XGBoost, LightGBM and Cat… (?); training on the entire training dataset
 9) **predictions** on the test set and exportation
 
