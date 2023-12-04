@@ -91,10 +91,10 @@ Overall, we only spent around 5% of the time building the actual model (and only
 - 'HarvestMonth_November': Whether harvesting was done in November
 - 'ThreshingMonth_January': Whether threshing was done in January
 - 'Block_Chehrakala': Whether the Block is Chehrakala
-- 'PCropSolidOrgFertAppMethod_Broadcasting': Whether
-- 'PCropSolidOrgFertAppMethod_SoilApplied':
-- 'MineralFertAppMethod_1_Broadcasting':
-- 'MineralFertAppMethod_1_SoilApplied': method of fertilizer application for the 1st application
+- 'PCropSolidOrgFertAppMethod_Broadcasting': Whether the method used was Broadcasting (previous crop)
+- 'PCropSolidOrgFertAppMethod_SoilApplied': Whether the method used was Soil Application (previous crop)
+- 'MineralFertAppMethod_1_Broadcasting': Whether the method used was Broadcasting (current crop)
+- 'MineralFertAppMethod_1_SoilApplied': Whether the method used was Broadcasting (current crop)
 - 'PC4': 4th component of the PCA
 - 'PC10': 10th component of the PCA
 - 'PC21': 21st component of the PCA
