@@ -41,7 +41,7 @@ The only thing to do is running the submission.ipynb notebook, after replacing t
 4) **initial feature selection** (dropping raw and very sparse variables)
 5) **dimensionality reduction** (PCA with 21 components)
 6) **clustering** (k-means for k ranging from 2 to 5, using different sets of features)
-7) **2nd feature selection**: the final list of features (top_cols) was selected using Recursive Feature Elimination with CV on our basis XGBoost model.
+7) **2nd feature selection**: the final list of features (top_cols) was selected using Recursive Feature Elimination with CV on our baseline XGBoost model.
 9) **modeling** using XGBoost, LightGBM and CatBoost; training on the entire training dataset
     - note: we use per_Acre variables and our model predicts Yield_per_Acre. As post-processing, we revert back to raw Yield by multiplying the prediction by the Acre value
 10) **predictions** on the test set and exportation
