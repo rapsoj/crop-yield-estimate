@@ -1,3 +1,9 @@
+-- fill in runtime
+-- feature explanation
+-- review structure and filenames
+-- try running on another pc to make sure it runs smoothly
+
+
 **Hello!**
 
 We are the Oxford Effective International Development Group. Thank you for your time in reviewing our model.
