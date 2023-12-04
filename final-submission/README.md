@@ -14,7 +14,7 @@ Thank you for your time in reviewing our model, which we call "XYieldBoost".
 
 **Folder structure**:
 - the “data” folder includes the datasets provided for this competition
-- the "submission.ipynb" notebook is the main notebook and the only thing you need to run to obtain predictions
+- the "submission.ipynb" notebook is the end-to-end reproducible model
 - the "requirements.txt" file allows to ensure all required packages are installed when running the notebook
 - the “pipeline” folder includes the preprocessing .py files (cleaning.py, feature_engineering.py, scaling.py, feature_selection.py, dim_reduction.py and clustering.py)
 - the “submission.csv” file is output by the model and includes IDs and Yield predictions for the test set.
@@ -25,6 +25,7 @@ Thank you for your time in reviewing our model, which we call "XYieldBoost".
 This can easily be run on Google Colab:
 - Import the crop-yield-estimate-OxfordGroup folder into Google Drive
 - Run the submission.ipynb notebook in Colab after replacing the directory path in the first cell: %cd '/content/gdrive/My Drive/crop-yield-estimate-OxfordGroup'
+- Predictions will be exported as "submission.csv"
 
 **The expected runtime is around 5-6 minutes** (in Google Colab)
 - note: due to the nature of the models we used (XGBoost, LightGBM and CatBoost), the predictions will slightly vary with every run. Unfortunately, setting a seed does not allow for exact reproducibility, but the RMSE should be fairly stable. 
