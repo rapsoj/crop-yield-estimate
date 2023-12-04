@@ -75,17 +75,17 @@ Overall, we only spent around 5% of the time building the actual model (and only
 - 'TillageDate_ModeDiff':
 - 'HarvestDate_ModeDiff':
 - 'ThreshingDate_ModeDiff':
-- 'Num_LandPrepMethod': Number of LandPrepMethod selected
-- 'Num_CropbasalFerts': Number of CropbasalFerts selected
-- 'Num_TopDressFert': Number of TopDressFert selected
+- 'Num_LandPrepMethod': Number of LandPrepMethod selected (LandPrepMethod was a question for which farmers could select multiple items)
+- 'Num_CropbasalFerts': Number of CropbasalFerts selected (CropbasalFerts was a question for which farmers could select multiple items)
+- 'Num_TopDressFert': Number of TopDressFert selected (TopDressFert was a question for which farmers could select multiple items)
 - 'Latitude': added for each block
 - 'Longitude': added for each block
 - 'CropEstMethod_LineSowingAfterTillage':
-- 'Threshing_method_machine':
-- 'Stubble_use_plowed_in_soil':
-- 'LandPrepMethod_FourWheelTracRotavator_True':
-- 'LandPrepMethod_WetTillagePuddling_True':
-- 'NursDetFactor_PreMonsoonShowers_True':
+- 'Threshing_method_machine': Binary variable, where 1 means the threshing was done with a machine (while 0 is by hand)
+- 'Stubble_use_plowed_in_soil': Binary variable, where 1 means the practice used is plowed in soil (while 0 is burned)
+- 'LandPrepMethod_FourWheelTracRotavator_True': Binary variable, where True means a four wheel tractor rotavator was used in land preparation
+- 'LandPrepMethod_WetTillagePuddling_True': Binary variable, where True means wet tillage puddling was used in land preparation
+- 'NursDetFactor_PreMonsoonShowers_True': 
 - 'NursDetFactor_LabourAvailability_True':
 - 'FirstTopDressFert_DAP_True':
 - 'HarvestMonth_November':
