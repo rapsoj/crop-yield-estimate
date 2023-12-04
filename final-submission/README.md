@@ -15,6 +15,7 @@ Thank you for your time in reviewing our model, which we call "XYieldBoost".
 **Folder structure**:
 - the “data” folder includes the datasets provided for this competition
 - the "submission.ipynb" notebook is the main notebook and the only thing you need to run to obtain predictions
+- the "requirements.txt" file allows to ensure all required packages are installed when running the notebook
 - the “pipeline” folder includes the preprocessing .py files (cleaning.py, feature_engineering.py, scaling.py, feature_selection.py, dim_reduction.py and clustering.py)
 - the “submission.csv” file is output by the model and includes IDs and Yield predictions for the test set.
 
