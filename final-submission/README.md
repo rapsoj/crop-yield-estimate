@@ -5,7 +5,7 @@
 
 **Hello!**
 
-We are the Oxford Effective International Development Group. Thank you for your time in reviewing our model.
+We are the Oxford Effective International Development Group. Thank you for your time in reviewing our model, which we call "XYieldBoost".
 
 <br />
 
