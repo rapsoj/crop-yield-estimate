@@ -22,6 +22,7 @@ We are the Oxford Effective International Development Group. Thank you for your 
 - the “data” folder includes the datasets provided for this competition
 - the “pipeline” folder includes the preprocessing .py files (cleaning.py, feature_engineering.py, scaling.py, feature_selection.py, dim_reduction.py and clustering.py)
 - the “submission.csv” file is output by the model and includes IDs and Yield predictions for the test set.
+    - note: the predictions will vary with every run, due to the nature of XGBoost and related models. Unfortunately, setting a seed does not allow for every run
 
 
 
@@ -43,7 +44,8 @@ The only thing to do is running the submission.ipynb notebook, after replacing t
 6) **clustering** (k-means for k ranging from 2 to 5, using different sets of features)
 7) **2nd feature selection** (top_cols), selecting only features with significant predictive power (this is based on Shapley values, as examined from our model using a train-test split on the training set)
 8) **modeling** using XGBoost, LightGBM and Cat… (?); training on the entire training dataset
-9) **predictions** on the test set and exportation
+    - note: we use per_Acre variables and our model predicts Yield_per_Acre. As post-processing, we revert back to raw Yield by multiplying the prediction by the Acre value
+10) **predictions** on the test set and exportation
 
 
 
