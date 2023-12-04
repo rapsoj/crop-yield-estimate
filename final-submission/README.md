@@ -2,10 +2,12 @@
 We are the Oxford Effective International Development Group. Thank you for your time in reviewing our model.
 
 
+
 **This Read Me file covers**:
 - submission folder structure
 - how to run and expected runtime
 - description of our process and training features
+
 
 
 **Folder structure**:
@@ -16,12 +18,13 @@ We are the Oxford Effective International Development Group. Thank you for your 
 - the “submission.csv” file is output by the model and includes IDs and Yield predictions for the test set.
 
 
+
 **How to run**:
 The only thing to do is running the submission.ipynb notebook, after replacing the path files in the first cell:
 - os.chdir('/Users/yourname/Downloads/crop-yield-estimate-OxfordGroup/')
 - sys.path.insert(0, '/Users/yourname/Downloads/crop-yield-estimate-OxfordGroup/pipeline')
-
 **The expected runtime is around XX minutes** (for a laptop with XXX config)
+
 
 
 **Description of our submission**: 
@@ -34,6 +37,7 @@ The only thing to do is running the submission.ipynb notebook, after replacing t
 7) **2nd feature selection** (top_cols), selecting only features with significant predictive power (this is based on Shapley values, as examined from our model using a train-test split on the training set. This model, along with Shapley values visualizations, can be found in the shapley_model.ipynb notebook)
 8) **modeling** using XGBoost, LightGBM and Cat… (?); training on the entire training dataset
 9) **predictions** on the test set and exportation
+
 
 
 **List of training features** (and explanations where relevant) (total number: 48):
