@@ -21,7 +21,6 @@ We are the Oxford Effective International Development Group. Thank you for your 
 - the “data” folder includes the datasets provided for this competition
 - the “pipeline” folder includes the preprocessing .py files (cleaning.py, feature_engineering.py, scaling.py, feature_selection.py, dim_reduction.py and clustering.py)
 - the “submission.csv” file is output by the model and includes IDs and Yield predictions for the test set.
-    - note: due to the nature of the models we used (XGBoost, LightGBM and CatBoost), the predictions will slightly vary with every run. Unfortunately, setting a seed does not allow for exact reproducibility, but the RMSE should be fairly stable. 
 
 
 
@@ -31,6 +30,7 @@ The only thing to do is running the submission.ipynb notebook, after replacing t
 - sys.path.insert(0, '/Users/yourname/Downloads/crop-yield-estimate-OxfordGroup/pipeline')
 
 **The expected runtime is around 3 minutes** (for a 2020 laptop with 8Gb RAM, Processor: AMD Ryzen 5 3500u, Graphic card: AMD Radeon vega 8 graphics)
+- note: due to the nature of the models we used (XGBoost, LightGBM and CatBoost), the predictions will slightly vary with every run. Unfortunately, setting a seed does not allow for exact reproducibility, but the RMSE should be fairly stable. 
 
 
 
