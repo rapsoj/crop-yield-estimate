@@ -8,11 +8,14 @@ warnings.filterwarnings("ignore")
 
 
 def load_data(train_path, test_path):
-  df_train = pd.read_csv(train_path)
+  df_train = pd.read_excel(train_path)
   df_test = pd.read_csv(test_path)
 
   # Add column for yield to test dataframe
   df_test['Yield'] = np.nan
+
+  # Remove the columns that are not present in the 2023 data from the test data
+  df_test = df_test.drop(df_train[~df_train.columns.isin(df_test.columns)], axis=1)
 
   # Combine data
   df = pd.concat([df_train, df_test], axis=0)
@@ -20,11 +23,7 @@ def load_data(train_path, test_path):
   return df
 
 
-def fix_duplicate(df):
-
-  df = df.rename(columns={'MineralFertAppMethod': 'MineralFertAppMethod_1','MineralFertAppMethod.1': 'MineralFertAppMethod_2'})
-
-  return df
+# Removed fix_duplicate function as it was not needed for the 2023 data
 
 
 def adjust_datetime_columns(df):
