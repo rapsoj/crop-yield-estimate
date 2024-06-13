@@ -45,10 +45,7 @@ def fix_errors(df):
   subset = df.loc[(df["Block"]=="Gurua")]
   df.loc[(df["2appDaysUrea"].isnull()==True) & (df["2tdUrea"].isnull()==False), "2appDaysUrea"] = subset["2tdUrea"].median()
 
-  # Manually correct 3 rows that have input errors in Harv_date
-  df.loc[df["Harv_date"]=="2021-12-01", "Harv_date"] = "2022-12-01" # Wrong year
-  df.loc[df["Harv_date"]=="2021-12-03", "Harv_date"] = "2022-12-03" # Wrong year
-  df.loc[df["Harv_date"]=="2022-03-04", "Harv_date"] = "2022-11-04" # Month may be messed up, should probably be November
+  # REMOVED ~ Manually correct 3 rows that have input errors in Harv_date
 
   return df
 
@@ -198,7 +195,6 @@ def rescale_entry_errors(df):
 
 def clean_data(train_path, test_path):
   df = load_data(train_path, test_path)
-  df = fix_duplicate(df)
   df = adjust_datetime_columns(df)
   df = fix_errors(df)
   df = parse_categorical(df)
